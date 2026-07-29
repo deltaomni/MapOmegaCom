@@ -1,0 +1,2698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X1D90MQYMH"></script>
+    <script>window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-X1D90MQYMH');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MapOmega develops Spatial Intelligence Engines for critical operations. See the full picture of your operation, continuously and in the palm of your hand.">
+    <title>MapOmega — Spatial Intelligence Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: "AIzaSyC8F1bVIGsP_nHBaOBgBpDCsRd-LYeFUsA", v: "weekly" });</script>
+    <style>
+        /* ── TOKENS ───────────────────────────────────────────────────────── */
+        :root {
+            --sky: #38BDF8;
+            --slate: #0F172A;
+            --surface: #1E293B;
+            --panel: #162032;
+            --muted: #94A3B8;
+            --white: #EFF6FF;
+            --border: rgba(255,255,255,0.07);
+            --omni: #2563EB;
+            --delta: #06B6D4;
+            --safety: #10B981;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--slate);
+            color: var(--white);
+            font-family: 'Inter',sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ───────────────────────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 56px;
+            transition: background 0.3s;
+        }
+
+            nav.scrolled {
+                background: rgba(15,23,42,0.96);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid var(--border);
+            }
+
+        .nav-logo {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--sky);
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sky);
+            box-shadow: 0 0 10px var(--sky);
+            animation: pdot 2.4s ease-in-out infinite;
+        }
+
+        @keyframes pdot {
+            0%,100% {
+                opacity: 1;
+                transform: scale(1)
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.6)
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            align-items: center;
+        }
+
+            .nav-links a {
+                font-family: 'JetBrains Mono',monospace;
+                font-size: 10px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .nav-links a:hover {
+                    color: var(--white);
+                }
+
+        .nav-cta {
+            color: var(--sky) !important;
+            border: 1px solid rgba(56,189,248,0.3);
+            padding: 7px 14px !important;
+            border-radius: 2px;
+        }
+
+            .nav-cta:hover {
+                background: rgba(56,189,248,0.1) !important;
+                border-color: var(--sky) !important;
+            }
+
+        .nav-ham {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .nav-mob {
+            display: none;
+            position: fixed;
+            top: 64px;
+            left: 0;
+            right: 0;
+            z-index: 199;
+            background: rgba(15,23,42,0.98);
+            backdrop-filter: blur(12px);
+            flex-direction: column;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+            .nav-mob a {
+                font-family: 'JetBrains Mono',monospace;
+                font-size: 11px;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+                padding: 13px 0;
+                border-bottom: 1px solid var(--border);
+                transition: color 0.2s;
+            }
+
+                .nav-mob a:last-child {
+                    border-bottom: none;
+                }
+
+                .nav-mob a:hover {
+                    color: var(--sky);
+                }
+
+            .nav-mob.open {
+                display: flex;
+            }
+
+        @media(max-width:768px) {
+            nav {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .nav-ham {
+                display: block;
+            }
+        }
+
+        /* ── HELPERS ──────────────────────────────────────────────────────── */
+        .inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        @media(max-width:600px) {
+            .inner {
+                padding: 0 20px;
+            }
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(28px,4vw,46px);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+            .section-title em {
+                font-style: normal;
+                color: var(--sky);
+            }
+
+        .section-sub {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 560px;
+            margin-bottom: 64px;
+        }
+
+        .btn-primary {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--slate);
+            background: var(--sky);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .btn-primary:hover {
+                background: #7DD3FC;
+                box-shadow: 0 0 28px rgba(56,189,248,0.3);
+                transform: translateY(-1px);
+            }
+
+        .btn-secondary {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--sky);
+            background: transparent;
+            border: 1px solid rgba(56,189,248,0.3);
+            padding: 14px 22px;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .btn-secondary:hover {
+                border-color: var(--sky);
+                background: rgba(56,189,248,0.06);
+            }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s, transform 0.7s;
+        }
+
+            .reveal.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        .sdots {
+            position: fixed;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .sdot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(148,163,184,0.3);
+            cursor: pointer;
+            border: 1px solid rgba(148,163,184,0.2);
+            transition: all 0.3s;
+        }
+
+            .sdot.active {
+                background: var(--sky);
+                box-shadow: 0 0 8px rgba(56,189,248,0.5);
+            }
+
+        @media(max-width:600px) {
+            .sdots {
+                display: none;
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+
+        /* ── S1 HERO ──────────────────────────────────────────────────────── */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(56,189,248,0.07) 0%, transparent 65%), var(--slate);
+        }
+
+            #hero::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background-image: linear-gradient(rgba(56,189,248,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.035) 1px,transparent 1px);
+                background-size: 56px 56px;
+                animation: gdrift 28s linear infinite;
+            }
+
+            #hero::after {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,var(--slate) 100%);
+            }
+
+        @keyframes gdrift {
+            to {
+                background-position: 56px 56px;
+            }
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        @media(max-width:860px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 11px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .hero-eyebrow::before {
+                content: '';
+                width: 32px;
+                height: 1px;
+                background: var(--sky);
+            }
+
+        .hero-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(36px,5vw,64px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+
+            .hero-title .accent {
+                color: var(--sky);
+            }
+
+        .hero-sub {
+            font-size: clamp(15px,1.6vw,18px);
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.75;
+            margin-bottom: 40px;
+            max-width: 520px;
+        }
+
+            .hero-sub strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        .hero-ctas {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Diagrama SIE */
+        .sie-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sie-diagram {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media(max-width:860px) {
+            .sie-diagram {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        .sie-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid;
+            animation: rspin linear infinite;
+        }
+
+            .sie-ring:nth-child(1) {
+                width: 100%;
+                height: 100%;
+                border-color: rgba(56,189,248,0.09);
+                animation-duration: 40s;
+            }
+
+            .sie-ring:nth-child(2) {
+                width: 76%;
+                height: 76%;
+                border-color: rgba(56,189,248,0.14);
+                animation-duration: 28s;
+                animation-direction: reverse;
+            }
+
+            .sie-ring:nth-child(3) {
+                width: 54%;
+                height: 54%;
+                border-color: rgba(56,189,248,0.2);
+                animation-duration: 18s;
+            }
+
+        @keyframes rspin {
+            from {
+                transform: rotate(0deg)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .sie-ring::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--sky);
+            box-shadow: 0 0 8px var(--sky);
+        }
+
+        .sie-core {
+            position: relative;
+            z-index: 2;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: rgba(56,189,248,0.06);
+            border: 1px solid rgba(56,189,248,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            backdrop-filter: blur(4px);
+        }
+
+        @media(max-width:860px) {
+            .sie-core {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .sie-core-lbl {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .sie-core-name {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--sky);
+        }
+
+        @media(max-width:860px) {
+            .sie-core-name {
+                font-size: 13px;
+            }
+        }
+
+        .sie-prod {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sie-prod-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px;
+            position: relative;
+        }
+
+            .sie-prod-dot::before {
+                content: '';
+                position: absolute;
+                inset: -4px;
+                border-radius: 50%;
+                border: 1px solid currentColor;
+                opacity: 0.3;
+                animation: dpulse 2s ease-in-out infinite;
+            }
+
+        @keyframes dpulse {
+            0%,100% {
+                transform: scale(1);
+                opacity: 0.3
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.08
+            }
+        }
+
+        .sie-prod-name {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .p-omni {
+            top: 3%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+            .p-omni .sie-prod-dot {
+                background: var(--omni);
+                color: var(--omni);
+                box-shadow: 0 0 10px var(--omni);
+            }
+
+            .p-omni .sie-prod-name {
+                color: var(--omni);
+            }
+
+        .p-delta {
+            bottom: 6%;
+            left: 8%;
+        }
+
+            .p-delta .sie-prod-dot {
+                background: var(--delta);
+                color: var(--delta);
+                box-shadow: 0 0 10px var(--delta);
+            }
+
+            .p-delta .sie-prod-name {
+                color: var(--delta);
+            }
+
+        .p-safety {
+            bottom: 6%;
+            right: 8%;
+        }
+
+            .p-safety .sie-prod-dot {
+                background: var(--safety);
+                color: var(--safety);
+                box-shadow: 0 0 10px var(--safety);
+            }
+
+            .p-safety .sie-prod-name {
+                color: var(--safety);
+            }
+
+        /* ── S2 MANIFESTO ─────────────────────────────────────────────────── */
+        #manifesto {
+            padding: 112px 0;
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prog-row {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 0;
+            max-width: 960px;
+            margin: 48px auto;
+            position: relative;
+        }
+
+        @media(max-width:860px) {
+            .prog-row {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:480px) {
+            .prog-row {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        .prog-row::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8%;
+            right: 8%;
+            height: 1px;
+            background: linear-gradient(90deg,transparent,rgba(56,189,248,0.25),transparent);
+        }
+
+        .prog-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 8px;
+        }
+
+        .prog-disc {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 1px solid rgba(56,189,248,0.18);
+            background: rgba(56,189,248,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: var(--sky);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .prog-item:hover .prog-disc {
+            background: rgba(56,189,248,0.12);
+            border-color: var(--sky);
+            box-shadow: 0 0 20px rgba(56,189,248,0.2);
+        }
+
+        .prog-item:last-child .prog-disc {
+            background: rgba(56,189,248,0.15);
+            border-color: var(--sky);
+            box-shadow: 0 0 24px rgba(56,189,248,0.3);
+        }
+
+        .prog-q {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--white);
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .prog-d {
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .manifesto-quote {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(15px,1.8vw,20px);
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.75;
+            font-style: italic;
+        }
+
+            .manifesto-quote strong {
+                color: var(--white);
+                font-weight: 500;
+                font-style: normal;
+            }
+
+        /* ── S3 PLACEHOLDER VISUAL ────────────────────────────────────────── */
+        #visual-placeholder {
+            padding: 0;
+            background: var(--slate);
+            position: relative;
+        }
+
+        .vph-wrap {
+            width: 100%;
+            height: 480px;
+            position: relative;
+            overflow: hidden;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* ↓ Substituir pelo background-image real quando disponível */
+            /* background-image:url('sua-imagem.jpg'); background-size:cover; background-position:center; */
+        }
+
+        .vph-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,rgba(15,23,42,0.6) 0%,rgba(15,23,42,0.3) 50%,rgba(15,23,42,0.8) 100%);
+            background-image:url(static_assets/img/img12.png);
+            background-size: cover;
+            background-position: center;
+        }
+        /* Grade monocromática como placeholder visual */
+        .vph-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(56,189,248,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.06) 1px,transparent 1px);
+            background-size: 40px 40px;
+        }
+        /* Silhueta de cidade/indústria em SVG inline */
+        .vph-skyline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            opacity: 0.18;
+        }
+
+        .vph-content {
+            position: absolute;
+            z-index: 2;
+            text-align: center;
+            bottom: 10px;
+        }
+
+        .vph-label {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(56,189,248,1.0);
+            margin-bottom: 12px;
+        }
+
+        .vph-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(20px,3vw,36px);
+            font-weight: 700;
+            color: rgba(255,255,255,0.45);
+            letter-spacing: -0.01em;
+        }
+
+        .vph-hint {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(56,189,248,0.25);
+            margin-top: 16px;
+        }
+        /* Ativos pulsando */
+        .vph-assets {
+            position: absolute;
+            inset: 0;
+        }
+
+        .vph-asset {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .vph-asset-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sky);
+            box-shadow: 0 0 12px var(--sky);
+            animation: apulse 2s ease-in-out infinite;
+        }
+
+            .vph-asset-dot::before {
+                content: '';
+                position: absolute;
+                inset: -5px;
+                border-radius: 50%;
+                border: 1px solid var(--sky);
+                opacity: 0.3;
+                animation: aring 2s ease-in-out infinite;
+            }
+
+        @keyframes apulse {
+            0%,100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        @keyframes aring {
+            0% {
+                transform: scale(1);
+                opacity: 0.3
+            }
+
+            100% {
+                transform: scale(2.5);
+                opacity: 0
+            }
+        }
+
+        .vph-asset-lbl {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            color: rgba(56,189,248,0.6);
+            white-space: nowrap;
+        }
+
+        .vph-asset:nth-child(2) .vph-asset-dot {
+            animation-delay: 0.4s;
+            background: var(--delta);
+            box-shadow: 0 0 12px var(--delta);
+            border-color: var(--delta) !important;
+        }
+
+        .vph-asset:nth-child(3) .vph-asset-dot {
+            animation-delay: 0.8s;
+            background: var(--safety);
+            box-shadow: 0 0 12px var(--safety);
+        }
+
+        .vph-asset:nth-child(4) .vph-asset-dot {
+            animation-delay: 1.2s;
+            background: var(--omni);
+            box-shadow: 0 0 12px var(--omni);
+        }
+
+        .vph-scanline {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,transparent,rgba(56,189,248,0.4),transparent);
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0
+            }
+
+            to {
+                top: 100%
+            }
+        }
+
+        /* ── S4 PRODUTOS ──────────────────────────────────────────────────── */
+        #produtos {
+            padding: 112px 0;
+            background: var(--slate);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 2px;
+            margin-top: 0;
+        }
+
+        @media(max-width:860px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pcard {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 44px 32px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            text-decoration: none;
+            transition: border-color 0.25s,background 0.25s,transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .pcard::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                opacity: 0.5;
+                transition: opacity 0.25s;
+            }
+
+            .pcard:hover {
+                transform: translateY(-4px);
+            }
+
+                .pcard:hover::before {
+                    opacity: 1;
+                }
+
+            .pcard.omni::before {
+                background: var(--omni);
+                box-shadow: 0 0 16px var(--omni);
+            }
+
+            .pcard.delta::before {
+                background: var(--delta);
+                box-shadow: 0 0 16px var(--delta);
+            }
+
+            .pcard.safety::before {
+                background: var(--safety);
+                box-shadow: 0 0 16px var(--safety);
+            }
+
+            .pcard.omni:hover {
+                border-color: rgba(37,99,235,0.25);
+                background: rgba(37,99,235,0.04);
+            }
+
+            .pcard.delta:hover {
+                border-color: rgba(6,182,212,0.25);
+                background: rgba(6,182,212,0.04);
+            }
+
+            .pcard.safety:hover {
+                border-color: rgba(16,185,129,0.25);
+                background: rgba(16,185,129,0.04);
+            }
+
+        .pcard-num {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .pcard-num::before {
+                content: '';
+                width: 20px;
+                height: 1px;
+            }
+
+        .omni .pcard-num {
+            color: var(--omni);
+        }
+
+            .omni .pcard-num::before {
+                background: var(--omni);
+            }
+
+        .delta .pcard-num {
+            color: var(--delta);
+        }
+
+            .delta .pcard-num::before {
+                background: var(--delta);
+            }
+
+        .safety.pcard-num {
+            color: var(--safety);
+        }
+
+            .safety .pcard-num::before {
+                background: var(--safety);
+            }
+
+        .safety .pcard-num {
+            color: var(--safety);
+        }
+
+        .pcard-name {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(20px,2.5vw,28px);
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+            letter-spacing: -0.01em;
+        }
+
+        .pcard-tema {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        .pcard-desc {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.75;
+            flex: 1;
+            margin-bottom: 28px;
+        }
+
+            .pcard-desc strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        .pcard-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 28px;
+        }
+
+        .pill {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--muted);
+        }
+
+        .pcard-link {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .omni .pcard-link {
+            color: var(--omni);
+        }
+
+        .delta .pcard-link {
+            color: var(--delta);
+        }
+
+        .safety .pcard-link {
+            color: var(--safety);
+        }
+
+        .arr {
+            transition: transform 0.2s;
+        }
+
+        .pcard:hover .arr {
+            transform: translateX(5px);
+        }
+
+        /* ticket badge */
+        .ticket-badge {
+            display: inline-block;
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+
+        .omni .ticket-badge {
+            background: rgba(37,99,235,0.1);
+            border: 1px solid rgba(37,99,235,0.25);
+            color: var(--omni);
+        }
+
+        .delta .ticket-badge {
+            background: rgba(6,182,212,0.1);
+            border: 1px solid rgba(6,182,212,0.25);
+            color: var(--delta);
+        }
+
+        .safety .ticket-badge {
+            background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.25);
+            color: var(--safety);
+        }
+
+        /* ── S5 MERCADOS ──────────────────────────────────────────────────── */
+        #mercados {
+            padding: 112px 0;
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+        }
+
+        .mkt-grid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 2px;
+            margin-top: 64px;
+        }
+
+        @media(max-width:860px) {
+            .mkt-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:480px) {
+            .mkt-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .mkt-card {
+            padding: 32px 24px;
+            background: rgba(15,23,42,0.6);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.25s,background 0.25s;
+        }
+
+            .mkt-card:hover {
+                border-color: rgba(56,189,248,0.2);
+                background: rgba(56,189,248,0.03);
+            }
+
+        .mkt-icon {
+            font-size: 26px;
+            line-height: 1;
+        }
+
+        .mkt-name {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .mkt-desc {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .mkt-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 4px;
+        }
+
+        .mkt-tag {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: rgba(56,189,248,0.06);
+            border: 1px solid rgba(56,189,248,0.14);
+            color: rgba(56,189,248,0.7);
+        }
+
+        /* ── S6 POR QUE AGORA ─────────────────────────────────────────────── */
+        #porque {
+            padding: 112px 0;
+            background: var(--slate);
+        }
+
+        .porque-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        @media(max-width:760px) {
+            .porque-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+
+        .porque-hl {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(22px,3vw,36px);
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 20px;
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+        }
+
+            .porque-hl em {
+                font-style: normal;
+                color: var(--sky);
+            }
+
+        .porque-body {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+            .porque-body strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        .pstats {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .pstat {
+            padding: 22px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+            .pstat:last-child {
+                border-bottom: none;
+            }
+
+        .pstat-v {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            color: var(--sky);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .pstat-d {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+            .pstat-d strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        /* ── S7 PIT ───────────────────────────────────────────────────────── */
+        #pit {
+            padding: 112px 0 0;
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+        }
+
+        .pit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        @media(max-width:760px) {
+            .pit-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        .pit-hl {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(20px,2.5vw,30px);
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 14px;
+            line-height: 1.3;
+        }
+
+            .pit-hl em {
+                font-style: normal;
+                color: var(--sky);
+            }
+
+        .pit-body {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 24px;
+        }
+
+            .pit-body strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        .partners-lbl {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .partners-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .p-badge {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: border-color 0.2s,color 0.2s;
+        }
+
+            .p-badge:hover {
+                border-color: rgba(56,189,248,0.2);
+                color: var(--white);
+            }
+
+        /* Mapa customizado */
+
+        #map {
+            height:470px;
+            max-width: 500px;
+        }
+
+        @media(max-width:860px) {
+            #map {
+                max-width: 90vw;
+            }
+        }
+
+        @media(max-width:480px) {
+            #map {
+                max-width: 90vw;
+            }
+        }
+
+        .pit-map-outer {
+            position: relative;
+        }
+
+        .pit-map-frame {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+            .pit-map-frame iframe {
+                display: block;
+                width: 100%;
+                height: 320px;
+                border: none;
+                filter: saturate(0.15) brightness(0.65) contrast(1.15);
+            }
+        /* Cursor SVG pulsando sobre o mapa */
+        .pit-cursor {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .pit-cursor-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .pit-cursor-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(56,189,248,0.5);
+            transform: translate(-50%,-50%);
+            top: 0;
+            left: 0;
+            animation: cring 2.4s ease-out infinite;
+        }
+
+            .pit-cursor-ring:nth-child(1) {
+                width: 20px;
+                height: 20px;
+                animation-delay: 0s;
+            }
+
+            .pit-cursor-ring:nth-child(2) {
+                width: 40px;
+                height: 40px;
+                animation-delay: 0.6s;
+            }
+
+            .pit-cursor-ring:nth-child(3) {
+                width: 64px;
+                height: 64px;
+                animation-delay: 1.2s;
+            }
+
+        @keyframes cring {
+            0% {
+                opacity: 0.8;
+                transform: translate(-50%,-50%) scale(0.4)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%,-50%) scale(1)
+            }
+        }
+
+        .pit-cursor-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--sky);
+            box-shadow: 0 0 16px var(--sky),0 0 32px rgba(56,189,248,0.4);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .pit-cursor-label {
+            position: absolute;
+            top: calc(50% + 16px);
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--sky);
+            background: rgba(15,23,42,0.85);
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(56,189,248,0.2);
+        }
+        /* Borda ciano sobre o mapa */
+        .pit-map-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            box-shadow: inset 0 0 0 1px rgba(56,189,248,0.15);
+            pointer-events: none;
+        }
+
+        /* ── S8 PDF CTA ───────────────────────────────────────────────────── */
+        #pdf-cta {
+            padding: 80px 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pdf-cta-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-cta-left {
+        }
+
+        .pdf-cta-eyebrow {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--sky);
+            margin-bottom: 10px;
+        }
+
+        .pdf-cta-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(20px,2.5vw,28px);
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .pdf-cta-sub {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 440px;
+        }
+
+        .pdf-cta-right {
+            flex-shrink: 0;
+        }
+
+        /* ── S9 FOOTER CTA ────────────────────────────────────────────────── */
+        #footer-cta {
+            padding: 112px 0;
+            background: var(--slate);
+            position: relative;
+            overflow: hidden;
+        }
+
+            #footer-cta::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(ellipse 60% 60% at 50% 50%,rgba(56,189,248,0.05) 0%,transparent 65%);
+            }
+
+        .fcta-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .fcta-line {
+            width: 1px;
+            height: 52px;
+            background: linear-gradient(180deg,transparent,rgba(56,189,248,0.4));
+            margin-bottom: 28px;
+        }
+
+        .fcta-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: clamp(28px,5vw,56px);
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 14px;
+            letter-spacing: -0.02em;
+            max-width: 720px;
+        }
+
+            .fcta-title em {
+                font-style: normal;
+                color: var(--sky);
+            }
+
+        .fcta-sub {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 44px;
+            max-width: 440px;
+            line-height: 1.7;
+        }
+
+        .fcta-ctas {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* ── FOOTER ───────────────────────────────────────────────────────── */
+        footer {
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+            padding: 36px 0;
+        }
+
+        .foot-inner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .foot-brand {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--sky);
+        }
+
+        .foot-meta {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 9px;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .foot-links {
+            display: flex;
+            gap: 18px;
+        }
+
+            .foot-links a {
+                font-family: 'JetBrains Mono',monospace;
+                font-size: 9px;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--muted);
+                text-decoration: none;
+                transition: color 0.2s;
+            }
+
+                .foot-links a:hover {
+                    color: var(--sky);
+                }
+
+        /* ── MODAL PDF ────────────────────────────────────────────────────── */
+        .modal-ov {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(15,23,42,0.97);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+            .modal-ov.open {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+        .modal-box {
+            width: 96%;
+            max-width: 480px;
+            background: var(--surface);
+            border: 1px solid rgba(56,189,248,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        .modal-ov.open .modal-box {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-stripe {
+            height: 2px;
+            background: var(--sky);
+            box-shadow: 0 0 16px rgba(56,189,248,0.5);
+        }
+
+        .modal-hdr {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-hdr-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .modal-close-btn {
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            padding: 6px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .modal-close-btn:hover {
+                color: var(--white);
+                border-color: rgba(255,255,255,0.3);
+            }
+
+        .modal-body {
+            padding: 24px 24px 28px;
+        }
+
+        .modal-desc {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+            .modal-desc strong {
+                color: var(--white);
+                font-weight: 500;
+            }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+            .field label {
+                display: block;
+                font-family: 'JetBrains Mono',monospace;
+                font-size: 9px;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin-bottom: 6px;
+            }
+
+            .field input, .field select {
+                width: 100%;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 6px;
+                padding: 11px 14px;
+                font-family: 'Inter',sans-serif;
+                font-size: 14px;
+                font-weight: 300;
+                color: var(--white);
+                outline: none;
+                transition: border-color 0.2s;
+            }
+
+                .field input:focus, .field select:focus {
+                    border-color: rgba(56,189,248,0.4);
+                    background: rgba(56,189,248,0.04);
+                }
+
+                .field input::placeholder {
+                    color: rgba(148,163,184,0.4);
+                }
+
+                .field select option {
+                    background: var(--surface);
+                    color: var(--white);
+                }
+
+                .field input.err, .field select.err {
+                    border-color: rgba(239,68,68,0.5);
+                }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 6px;
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--slate);
+            background: var(--sky);
+            border: none;
+            border-radius: 6px;
+            padding: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .submit-btn:hover {
+                background: #7DD3FC;
+                box-shadow: 0 0 24px rgba(56,189,248,0.3);
+            }
+
+            .submit-btn:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
+        .privacy-note {
+            margin-top: 12px;
+            text-align: center;
+            font-family: 'JetBrains Mono',monospace;
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            color: rgba(148,163,184,0.4);
+        }
+
+        .success-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
+            padding: 16px 0;
+        }
+
+        .success-icon {
+            font-size: 44px;
+        }
+
+        .success-title {
+            font-family: 'Space Grotesk',sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--sky);
+        }
+
+        .success-sub {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 340px;
+        }
+    
+/* ══ MODAL IFRAME ════════════════════════════════════════════════════ */
+.iframe-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(5,10,15,0.97);
+  display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.iframe-overlay.open { opacity: 1; pointer-events: all; }
+
+.iframe-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; height: 48px; flex-shrink: 0;
+  background: #0B1820;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.iframe-topbar-left {
+  display: flex; align-items: center; gap: 12px;
+}
+.iframe-back {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #94A3B8; background: none; border: none;
+  cursor: pointer; display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+}
+.iframe-back:hover { color: #EDF4F8; background: rgba(255,255,255,0.06); }
+.iframe-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.1); }
+.iframe-product-name {
+  font-family: 'Space Grotesk', sans-serif; font-size: 14px;
+  font-weight: 600; color: #EDF4F8;
+  display: flex; align-items: center; gap: 8px;
+}
+.iframe-product-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  animation: iframe-dot-blink 1.6s ease-in-out infinite;
+}
+@keyframes iframe-dot-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.iframe-topbar-right { display: flex; align-items: center; gap: 10px; }
+.iframe-open-btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: #EDF4F8; background: none;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 3px; padding: 6px 14px; cursor: pointer;
+  transition: all 0.2s; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.iframe-open-btn:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+.iframe-close {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: #94A3B8; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px; padding: 6px 12px; cursor: pointer;
+  transition: all 0.2s;
+}
+.iframe-close:hover { color: #EDF4F8; border-color: rgba(255,255,255,0.3); }
+
+.iframe-body {
+  flex: 1; position: relative; overflow: hidden;
+}
+.iframe-body iframe {
+  width: 100%; height: 100%; border: none; display: block;
+}
+
+/* Loading state */
+.iframe-loading {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 16px;
+  background: #0B1820; z-index: 1;
+  transition: opacity 0.4s;
+}
+.iframe-loading.hidden { opacity: 0; pointer-events: none; }
+.iframe-spinner {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.08);
+  border-top-color: var(--iframe-color, #38BDF8);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.iframe-loading-text {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(148,163,176,0.5);
+}
+
+@media(max-width: 600px) {
+  .iframe-topbar { padding: 0 10px; height: 44px; }
+  .iframe-product-name { font-size: 12px; }
+  .iframe-open-btn span.btn-label { display: none; }
+}
+
+
+        /* ── HERO ANCHOR ──────────────────────────────────────────── */
+        .hero-anchor {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(56,189,248,0.15);
+        }
+        .hero-anchor strong {
+            color: var(--sky);
+            font-weight: 600;
+        }
+
+        /* ── POR QUE O ESPAÇO ─────────────────────────────────────── */
+        #por-que-espaco {
+            padding: 96px 0;
+            background: var(--slate);
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            margin-top: 56px;
+        }
+        @media(max-width: 900px) {
+            .why-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media(max-width: 520px) {
+            .why-grid { grid-template-columns: 1fr; }
+        }
+        .why-card {
+            padding: 28px 24px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.25s;
+        }
+        .why-card:hover { border-color: rgba(56,189,248,0.2); }
+        .why-card-highlight {
+            background: var(--surface);
+            border-color: rgba(56,189,248,0.25) !important;
+            box-shadow: inset 0 0 40px rgba(56,189,248,0.04);
+        }
+        .why-tool {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+        .why-q {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.3;
+        }
+        .why-d {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="nav">
+    <a class="nav-logo" href="#hero">
+        <span class="nav-logo-dot"></span>
+        MapOmega
+    </a>
+  <ul class="nav-links">
+    <li><a href="#manifesto">Manifesto</a></li>
+    <li><a href="#produtos">Products</a></li>
+    <li><a href="#mercados">Markets</a></li>
+    <li><a href="#pit">Ecosystem</a></li>
+    <li><a href="#footer-cta" class="nav-cta">Get Diagnosis →</a></li>
+  </ul>
+  <button class="nav-ham" onclick="toggleNav()" aria-label="Menu">☰</button>
+</nav>
+<div class="nav-mob" id="nav-mob">
+  <a href="#manifesto"  onclick="closeNav()">Manifesto</a>
+  <a href="#produtos"   onclick="closeNav()">Products</a>
+  <a href="#mercados"   onclick="closeNav()">Markets</a>
+  <a href="#pit"        onclick="closeNav()">Ecosystem</a>
+  <a href="#footer-cta" onclick="closeNav()">Diagnóstico</a>
+</div>
+
+<!-- DOTS -->
+<div class="sdots">
+  <div class="sdot active" onclick="go('hero')"></div>
+  <div class="sdot" onclick="go('manifesto')"></div>
+  <div class="sdot" onclick="go('por-que-espaco')"></div>
+  <div class="sdot" onclick="go('visual-placeholder')"></div>
+  <div class="sdot" onclick="go('produtos')"></div>
+  <div class="sdot" onclick="go('mercados')"></div>
+  <div class="sdot" onclick="go('porque')"></div>
+  <div class="sdot" onclick="go('pit')"></div>
+  <div class="sdot" onclick="go('footer-cta')"></div>
+</div>
+
+<!-- ══ S1 HERO ══ -->
+<section id="hero">
+  <div class="inner">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow">Spatial Intelligence Engine</div>
+        <h1 class="hero-title">The age of<br>uncertainty <span class="accent">is over.</span></h1>
+        <p class="hero-sub">MapOmega develops <strong>Spatial Intelligence Engines (SIE)</strong> that transform thousands of operational data points into a living spatial representation of the operation — making risks, bottlenecks and opportunities visible in real time.</p>
+        <p class="hero-anchor">Every operational decision happens somewhere.<br><strong>The SIE is the first tool that knows where.</strong></p>
+        <div class="hero-ctas">
+          <a href="#produtos" class="btn-primary">Explore the SIE Ecosystem</a>
+          <button class="btn-secondary" onclick="openPDF()">⬇ Download Use Cases</button>
+        </div>
+      </div>
+      <div class="sie-wrap">
+        <div class="sie-diagram">
+          <div class="sie-ring"></div>
+          <div class="sie-ring"></div>
+          <div class="sie-ring"></div>
+          <div class="sie-core">
+            <span class="sie-core-lbl">Engine</span>
+            <span class="sie-core-name">SIE</span>
+            <span class="sie-core-lbl">MapOmega</span>
+          </div>
+          <div class="sie-prod p-omni">
+            <div class="sie-prod-dot"></div>
+            <span class="sie-prod-name">MapOmni</span>
+          </div>
+          <div class="sie-prod p-delta">
+            <div class="sie-prod-dot"></div>
+            <span class="sie-prod-name">DeltaOmni</span>
+          </div>
+          <div class="sie-prod p-safety">
+            <div class="sie-prod-dot"></div>
+            <span class="sie-prod-name">Safety Cross</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S2 MANIFESTO ══ -->
+<section id="manifesto">
+  <div class="inner">
+    <p class="eyebrow reveal" style="text-align:center">The SIE Manifesto</p>
+    <h2 class="section-title reveal" style="text-align:center">Every map speaks.<br><em>Ours tells the whole story.</em></h2>
+    <div class="prog-row reveal" >
+      <div class="prog-item"><div class="prog-disc" style="font-size:9px">ONDE<br>O QUÊ</div><div class="prog-q">Espaço</div><div class="prog-d">The physical reference of everything that happens</div></div>
+      <div class="prog-item"><div class="prog-disc" style="font-size:9px">QUANDO<br>QUANTO<br>COMO</div><div class="prog-q">Sensores</div><div class="prog-d">Continuous data across all dimensions</div></div>
+      <div class="prog-item"><div class="prog-disc" style="font-size:9px">POR QUÊ<br>CONSEQUÊNCIA</div><div class="prog-q">AI · Anticipation</div><div class="prog-d">The cause before the effect</div></div>
+      <div class="prog-item"><div class="prog-disc" style="font-size:9px">RISCO</div><div class="prog-q">Alerta</div><div class="prog-d">The right action, at the right place, at the right time</div></div>
+    </div>
+
+    <p class="manifesto-quote reveal"><strong>See and Act is still the best decision.</strong><br>We build spatial intelligence to amplify decision-making — putting the right information, in the right place, at the right moment, in the hands of those who can act.</p>
+  </div>
+</section>
+
+<!-- ══ S3 PLACEHOLDER VISUAL ══ -->
+<section id="visual-placeholder">
+  <div class="vph-wrap">
+    <div class="vph-grid"></div>
+    <!-- SILHUETA INDUSTRIAL SVG -->
+    <svg class="vph-skyline" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" fill="rgba(56,189,248,1)">
+      <!-- Chaminés e estruturas industriais estilizadas -->
+      <rect x="0"    y="140" width="60"  height="60"/>
+      <rect x="20"   y="80"  width="20"  height="60"/>
+      <rect x="70"   y="120" width="80"  height="80"/>
+      <rect x="100"  y="60"  width="18"  height="60"/>
+      <rect x="160"  y="100" width="100" height="100"/>
+      <rect x="200"  y="40"  width="22"  height="60"/>
+      <rect x="270"  y="130" width="60"  height="70"/>
+      <rect x="340"  y="90"  width="120" height="110"/>
+      <rect x="370"  y="30"  width="20"  height="60"/>
+      <rect x="400"  y="50"  width="20"  height="40"/>
+      <rect x="470"  y="110" width="90"  height="90"/>
+      <rect x="500"  y="60"  width="16"  height="50"/>
+      <polygon points="560,80 600,40 640,80"/>
+      <rect x="560"  y="80"  width="80"  height="120"/>
+      <rect x="650"  y="120" width="70"  height="80"/>
+      <rect x="670"  y="70"  width="18"  height="50"/>
+      <rect x="730"  y="100" width="110" height="100"/>
+      <rect x="760"  y="50"  width="20"  height="50"/>
+      <rect x="800"  y="70"  width="18"  height="30"/>
+      <rect x="850"  y="130" width="80"  height="70"/>
+      <rect x="940"  y="110" width="100" height="90"/>
+      <rect x="960"  y="60"  width="20"  height="50"/>
+      <rect x="990"  y="40"  width="18"  height="70"/>
+      <rect x="1050" y="120" width="70"  height="80"/>
+      <rect x="1070" y="70"  width="18"  height="50"/>
+      <rect x="1130" y="100" width="90"  height="100"/>
+      <rect x="1150" y="50"  width="22"  height="50"/>
+      <rect x="1230" y="130" width="80"  height="70"/>
+      <rect x="1250" y="80"  width="18"  height="50"/>
+      <rect x="1320" y="110" width="60"  height="90"/>
+      <rect x="1340" y="60"  width="20"  height="50"/>
+      <rect x="1390" y="140" width="50"  height="60"/>
+    </svg>
+    <div class="vph-overlay"></div>
+    <!-- Ativos pulsando -->
+    <div class="vph-assets">
+      <div class="vph-asset" style="top:35%;left:22%"><div class="vph-asset-dot"></div><span class="vph-asset-lbl">ATIVO-01</span></div>
+      <div class="vph-asset" style="top:28%;left:45%"><div class="vph-asset-dot"></div><span class="vph-asset-lbl">ATIVO-02</span></div>
+      <div class="vph-asset" style="top:60%;left:65%"><div class="vph-asset-dot"></div><span class="vph-asset-lbl">ATIVO-03</span></div>
+      <div class="vph-asset" style="top:32%;left:80%"><div class="vph-asset-dot"></div><span class="vph-asset-lbl">ATIVO-04</span></div>
+    </div>
+    <div class="vph-scanline"></div>
+    <div class="vph-content">
+      <div class="vph-label">Spatial Intelligence Engine · Visualização em Produção</div>
+      <div class="vph-title">O Motor que Vê Além</div>
+      <!--<div class="vph-hint">↓ Substituir por imagem ou vídeo real quando disponível ↓</div>-->
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ S2.5 POR QUE O ESPAÇO IMPORTA ══ -->
+<section id="por-que-espaco">
+  <div class="inner">
+    <p class="eyebrow reveal" style="text-align:center">The question no tool could answer</p>
+    <h2 class="section-title reveal" style="text-align:center">Software evolved.<br><em>But forgot about space.</em></h2>
+    <div class="why-grid reveal">
+      <div class="why-card">
+        <div class="why-tool">ERP · MES · SCADA</div>
+        <div class="why-q">What happened?</div>
+        <div class="why-d">Historical records. Yesterday's reports. The autopsy of what can no longer be fixed.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-tool">Dashboards · BI</div>
+        <div class="why-q">What is happening?</div>
+        <div class="why-d">Real-time indicators. Numbers without context. You see the problem — but not where it is.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-tool">AI · Machine Learning</div>
+        <div class="why-q">What may happen?</div>
+        <div class="why-d">Forecasts and alerts. Useful — but disconnected from the physical space where the decision must be made.</div>
+      </div>
+      <div class="why-card why-card-highlight">
+        <div class="why-tool" style="color:var(--sky)">Spatial Intelligence Engine</div>
+        <div class="why-q" style="color:var(--white)">Where it is happening — and why.</div>
+        <div class="why-d" style="color:rgba(237,244,248,0.8)">The physical space as primary data. Not visualization — intelligence. Every event positioned, correlated and prescribed at the exact place where action resolves the problem.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S4 PRODUTOS ══ -->
+<section id="produtos">
+  <div class="inner">
+    <p class="eyebrow reveal" style="text-align:center;margin-bottom:16px">The Ecosystem</p>
+    <h2 class="section-title reveal" style="text-align:center">Three products. <em>One engine.</em></h2>
+    <p class="section-sub reveal" style="text-align:center;margin:8px auto 56px">Each product works independently and is a natural gateway into the full ecosystem.</p>
+    <div class="products-grid reveal">
+
+      <!-- 1: MapOmni — ticket de entrada -->
+      <div class="pcard omni" onclick="openIframe('omni')" style="cursor:pointer">
+        <span class="ticket-badge">Entry Point · Accessible Ticket</span>
+        <div class="pcard-num">Product I · Spatial Interface</div>
+        <div class="pcard-name">MapOmni</div>
+        <div class="pcard-tema">Georeferenced Spatial Context</div>
+        <p class="pcard-desc">The complete view of your physical space — <strong>in the palm of your hand, directly in the browser</strong>. Transforms floor plans into navigable 3D models. Visitors guided, managers with full visibility, construction tracked in real time.</p>
+        <div class="pcard-pills">
+          <span class="pill">3D Web-Native</span>
+          <span class="pill">Multi-floor</span>
+          <span class="pill">Georreferenciado</span>
+          <span class="pill">Visitor Heatmap</span>
+          <span class="pill">Instant Quote via SVG/DXF</span>
+        </div>
+        <div class="pcard-link">Explore MapOmni <span class="arr">→</span></div>
+      </div>
+
+      <!-- 2: DeltaOmni — ticket alto -->
+      <div class="pcard delta" onclick="openIframe('delta')" style="cursor:pointer">
+        <span class="ticket-badge">Core Engine · Premium Ticket</span>
+        <div class="pcard-num">Product II · SIE Engine</div>
+        <div class="pcard-name">DeltaOmni</div>
+        <div class="pcard-tema">Continuous Production Control</div>
+        <p class="pcard-desc">Expands MapOmni's view across <strong>all operational dimensions</strong>. Closes the blind window between the radio and the dashboard — encoding the knowledge of your best operator and anticipating failures before they happen.</p>
+        <div class="pcard-pills">
+          <span class="pill">Δ Registro</span>
+          <span class="pill">Δ Antecipação</span>
+          <span class="pill">Δ Alerta</span>
+          <span class="pill">6M · Ishikawa</span>
+          <span class="pill">Prescriptive AI</span>
+        </div>
+        <div class="pcard-link">Explore DeltaOmni <span class="arr">→</span></div>
+      </div>
+
+      <!-- 3: Safety Cross — governança -->
+      <div class="pcard safety" onclick="openIframe('safety')" style="cursor:pointer">
+        <span class="ticket-badge">Governance · Control Layer</span>
+        <div class="pcard-num">Product III · Governance</div>
+        <div class="pcard-name">Safety Cross</div>
+        <div class="pcard-tema">Risk Governance · Green Cross</div>
+        <p class="pcard-desc">Implements <strong>real-time governance</strong> over alerts generated by DeltaOmni. Every deviation recorded, escalated via graph to whoever can act — keeping the operation 100% in the Green Cross of compliance.</p>
+        <div class="pcard-pills">
+          <span class="pill">Cruz Verde</span>
+          <span class="pill">Escalation Graph</span>
+          <span class="pill">NR-1 · GRO</span>
+          <span class="pill">30-day Window</span>
+          <span class="pill">API</span>
+        </div>
+        <div class="pcard-link">Explore Safety Cross <span class="arr">→</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ S5 MERCADOS ══ -->
+<section id="mercados">
+  <div class="inner">
+    <p class="eyebrow reveal" style="text-align:center;margin-bottom:16px">Application Sectors</p>
+    <h2 class="section-title reveal" style="text-align:center">One engine. <em>Infinite applications.</em></h2>
+    <p class="section-sub reveal" style="text-align:center;margin:8px auto 0">If you can imagine it, we can share it in 3D.</p>
+    <div class="mkt-grid reveal">
+      <div class="mkt-card"><div class="mkt-icon">⚙️</div><div class="mkt-name">Industry & Agribusiness</div><p class="mkt-desc">Predictive maintenance, production flow and safety in continuous operations.</p><div class="mkt-tags"><span class="mkt-tag">Mineração</span><span class="mkt-tag">Siderurgia</span><span class="mkt-tag">O&G</span><span class="mkt-tag">Agro</span></div></div>
+      <div class="mkt-card"><div class="mkt-icon">🛒</div><div class="mkt-name">Retail & Commerce</div><p class="mkt-desc">Giro por gondola, fluxo por corredor — precificação por inteligência real.</p><div class="mkt-tags"><span class="mkt-tag">Shoppings</span><span class="mkt-tag">Supermercados</span><span class="mkt-tag">Varejo</span></div></div>
+      <div class="mkt-card"><div class="mkt-icon">🏗️</div><div class="mkt-name">Project Management</div><p class="mkt-desc">Construction progress in 3D, shared in real time with any stakeholder.</p><div class="mkt-tags"><span class="mkt-tag">Obras</span><span class="mkt-tag">BIM</span><span class="mkt-tag">Expansão</span></div></div>
+      <div class="mkt-card"><div class="mkt-icon">🏙️</div><div class="mkt-name">Smart Cities</div><p class="mkt-desc">Urban infrastructure, mobility and sanitation monitored as living organisms.</p><div class="mkt-tags"><span class="mkt-tag">Smart City</span><span class="mkt-tag">Portos</span><span class="mkt-tag">Aeroportos</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S6 POR QUE AGORA ══ -->
+<section id="porque">
+  <div class="inner">
+    <div class="porque-grid">
+      <div class="reveal">
+        <p class="eyebrow" style="margin-bottom:16px">Why now</p>
+        <h2 class="porque-hl">This only became possible<br><em>right now.</em></h2>
+        <p class="porque-body">Three technologies matured simultaneously for the first time: <strong>IoT sensors at accessible cost</strong>, <strong>AI models capable of learning operational patterns</strong>, and <strong>web-native 3D rendering without proprietary hardware</strong>.</p>
+        <p class="porque-body">The result is not off-the-shelf technology. It is <strong>30 years of industrial logistics methodology</strong> encoded into a spatial intelligence engine — impossible to replicate by buying software.</p>
+        <a href="#footer-cta" class="btn-primary" style="margin-top:8px">Request Strategic Diagnosis</a>
+      </div>
+      <div class="pstats reveal">
+        <div class="pstat"><div class="pstat-v">10×</div><div class="pstat-d"><strong>crescimento projetado</strong> do mercado de Digital Twins — de USD 40 bi para USD 400 bi em 5 anos</div></div>
+        <div class="pstat"><div class="pstat-v">6M</div><div class="pstat-d"><strong>dimensões monitoradas simultaneamente</strong> — o que nenhum dashboard convencional faz</div></div>
+        <div class="pstat"><div class="pstat-v">0</div><div class="pstat-d"><strong>instalação necessária</strong> — roda no browser, em qualquer dispositivo, sem hardware proprietário</div></div>
+        <div class="pstat"><div class="pstat-v">30d</div><div class="pstat-d"><strong>para a primeira PoC</strong> — com a planta real do cliente, não uma demo genérica</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S7 PIT ══ -->
+<section id="pit">
+  <div class="inner">
+    <p class="eyebrow reveal" style="margin-bottom:16px">Ecosystem</p>
+    <div class="pit-grid">
+      <div class="reveal">
+        <h2 class="pit-hl">Built at the heart of<br><em>Brazil's largest technology hub.</em></h2>
+        <p class="pit-body">MapOmega operates within the <strong>NEXUS</strong> ecosystem, the Innovation Hub of the São José dos Campos Technology Innovation Park — one of the five best innovation environments in the world, alongside Embraer, ITA, INPE and UNIFESP.</p>
+        <p class="pit-body">This ecosystem is not just an address. It is the technical validation, acceleration and partnership network that sustains every product in the MapOmega portfolio.</p>
+        <p class="partners-lbl">Partners & Credentials</p>
+        <div class="partners-row">
+          <span class="p-badge">PIT · SJC</span>
+          <span class="p-badge">NEXUS Growth</span>
+          <span class="p-badge">SEBRAE ES</span>
+          <span class="p-badge">Base27</span>
+          <span class="p-badge">Ventiur</span>
+          <span class="p-badge">SAMARCO</span>
+          <span class="p-badge">Mining Hub</span>
+        </div>
+        <button class="btn-secondary" onclick="openPDF()">⬇ Download Use Cases</button>
+      </div>
+      <div class="reveal">
+        <div class="pit-map-outer">
+            <div id="map"></div>
+          <!--<div class="pit-map-frame">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3666.5424!2d-45.89532!3d-23.18959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94cc196af23a8149%3A0x5e70d42d2db08a45!2sParque%20Tecnol%C3%B3gico%20de%20S%C3%A3o%20Jos%C3%A9%20dos%20Campos!5e0!3m2!1spt-BR!2sbr!4v1721900000000!5m2!1spt-BR!2sbr"
+              allowfullscreen loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="PIT — Parque de Inovação Tecnológica de São José dos Campos">
+            </iframe>
+          </div>-->
+          <!-- Cursor SVG pulsando -->
+          <!--<div class="pit-cursor">
+            <div class="pit-cursor-rings">
+              <div class="pit-cursor-ring"></div>
+              <div class="pit-cursor-ring"></div>
+              <div class="pit-cursor-ring"></div>
+            </div>
+            <div class="pit-cursor-dot"></div>
+            <div class="pit-cursor-label">PIT · São José dos Campos</div>
+          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:80px"></div>
+</section>
+
+<!-- ══ S8 PDF CTA FAIXA ══ -->
+<section id="pdf-cta">
+  <div class="inner">
+    <div class="pdf-cta-inner">
+      <div class="pdf-cta-left">
+        <p class="pdf-cta-eyebrow">Use Cases · Exclusive PDF</p>
+        <h3 class="pdf-cta-title">See the SIE applied to your industry.</h3>
+        <p class="pdf-cta-sub">Receive the dossier with real use cases by sector — mining, ports, refinery, retail and more. Sent directly to your email.</p>
+      </div>
+      <div class="pdf-cta-right">
+        <button class="btn-primary" onclick="openPDF()" style="font-size:14px;padding:16px 32px">
+          ⬇ Download Use Cases
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S9 FOOTER CTA ══ -->
+<section id="footer-cta">
+  <div class="inner">
+    <div class="fcta-inner">
+      <div class="fcta-line"></div>
+      <p class="eyebrow reveal">Next Step</p>
+      <h2 class="fcta-title reveal">Ready to eliminate uncertainty and<br><em>master your operational terrain?</em></h2>
+      <p class="fcta-sub reveal">No generic presentation.<br>A strategic diagnosis — with your flow on the map.</p>
+      <div class="fcta-ctas reveal">
+        <a href="https://wa.me/5521996485172?text=Ol%C3%A1%2C+quero+um+diagn%C3%B3stico+MapOmega" target="_blank" class="btn-primary">Request Strategic Diagnosis</a>
+        <button class="btn-secondary" onclick="openPDF()">⬇ Download Use Cases</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div class="foot-inner">
+        <div class="foot-brand">
+            <img height="70" src="/static_assets/mo_logos/MapOmega_Tecnologia_Logo_Long_1200x360.png" alt="MapOmega Tecnologia" />
+        </div>
+        <div class="foot-meta">MapOmega Tecnologia da Informação Ltda.<br />· CNPJ 50.385.577/0001-37 ·<br><span style="opacity:0.5">© 2026 · All rights reserved</span></div>
+      <div class="foot-links">
+        <a href="https://deltaomni.com/br" target="_blank">DeltaOmni</a>
+        <a href="https://mapomni.com/br" target="_blank">MapOmni</a>
+        <a href="https://safetycross.com.br" target="_blank">Safety Cross</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ MODAL PDF ══ -->
+<div class="modal-ov" id="pdf-modal" onclick="handleOv(event)">
+    <div class="modal-box">
+        <div class="modal-stripe"></div>
+        <div class="modal-hdr">
+            <span class="modal-hdr-title">Use Cases · MapOmega SIE</span>
+            <button class="modal-close-btn" onclick="closePDF()">✕ Fechar</button>
+        </div>
+        <div class="modal-body">
+            <script src="https://js.hsforms.net/forms/embed/51799504.js" defer></script>
+            <div class="hs-form-frame" data-region="na1" data-form-id="29d0f6c5-ced3-469c-9041-63d86ced43a2" data-portal-id="51799504"></div>
+            <!--<div id="form-state">
+          <p class="modal-desc">Receba o dossiê com <strong>casos de uso reais por setor</strong> — mineração, portos, refinaria, retail e mais. Enviado diretamente para o seu email.</p>
+          <div class="field"><label>Nome</label><input type="text" id="f-nome" placeholder="Seu nome completo" autocomplete="name"></div>
+          <div class="field"><label>Email corporativo</label><input type="email" id="f-email" placeholder="voce@empresa.com.br" autocomplete="email"></div>
+          <div class="field"><label>Empresa</label><input type="text" id="f-empresa" placeholder="Nome da empresa" autocomplete="organization"></div>
+          <div class="field"><label>Setor</label>
+            <select id="f-setor">
+              <option value="" disabled selected>Selecione o setor</option>
+              <option>Mineração</option><option>Siderurgia</option><option>Óleo & Gás / Refinaria</option>
+              <option>Manufatura</option><option>Porto / Logística</option><option>Construção / BIM</option>
+              <option>Utilities / Energia</option><option>Retail / Varejo</option>
+              <option>Smart City</option><option>Agronegócio</option><option>Outro</option>
+            </select>
+          </div>
+          <button class="submit-btn" id="sub-btn" onclick="submitPDF()">Enviar · Receber PDF</button>
+          <p class="privacy-note">Seus dados não são compartilhados com terceiros.</p>
+        </div>
+        <div class="success-state" id="success-state">
+          <div class="success-icon">✅</div>
+          <div class="success-title">PDF a caminho!</div>
+          <p class="success-sub">Verifique sua caixa de entrada. Nossa equipe pode entrar em contato para entender melhor a sua operação.</p>
+          <a href="https://wa.me/5521996485172?text=Ol%C3%A1%2C+acabei+de+baixar+os+cases+da+MapOmega" target="_blank" class="btn-secondary" style="margin-top:8px">💬 Falar no WhatsApp</a>
+        </div>-->
+        </div>
+    </div>
+</div>
+
+<script>
+// Navbar
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  updateDots();
+});
+function toggleNav(){ document.getElementById('nav-mob').classList.toggle('open'); }
+function closeNav() { document.getElementById('nav-mob').classList.remove('open'); }
+function go(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+
+// Dots
+function updateDots(){
+  const ids=['hero','manifesto','por-que-espaco','visual-placeholder','produtos','mercados','porque','pit','footer-cta'];
+  const dots=document.querySelectorAll('.sdot');
+  let cur=0;
+  ids.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el && window.scrollY>=el.offsetTop-window.innerHeight/2) cur=i;
+  });
+  dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+}
+
+// Reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Modal PDF
+function openPDF(){
+  document.getElementById('pdf-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('form-state').style.display='block';
+  document.getElementById('success-state').style.display='none';
+}
+function closePDF(){
+  document.getElementById('pdf-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function handleOv(e){ if(e.target===document.getElementById('pdf-modal')) closePDF(); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePDF(); });
+
+async function submitPDF(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const email=document.getElementById('f-email').value.trim();
+  const empresa=document.getElementById('f-empresa').value.trim();
+  const setor=document.getElementById('f-setor').value;
+  let ok=true;
+  ['f-nome','f-email','f-empresa','f-setor'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el.value.trim()){ el.classList.add('err'); ok=false; }
+    else el.classList.remove('err');
+  });
+  if(!ok) return;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ document.getElementById('f-email').classList.add('err'); return; }
+  const btn=document.getElementById('sub-btn');
+  btn.disabled=true; btn.textContent='Enviando...';
+  // Endpoint Azure Function — substituir quando disponível
+  const ENDPOINT='https://SEU-ENDPOINT.azurewebsites.net/api/captura-lead';
+  try {
+    const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({nome,email,empresa,setor,origem:'mapomega.com',ts:new Date().toISOString()})});
+    if(!res.ok) throw new Error();
+  } catch {
+    // Fallback: abre mailto
+    const sub=encodeURIComponent(`[MapOmega] Lead — ${empresa} · ${setor}`);
+    const body=encodeURIComponent(`Nome: ${nome}\nEmail: ${email}\nEmpresa: ${empresa}\nSetor: ${setor}`);
+    window.open(`mailto:stephane@mapomega.com?subject=${sub}&body=${body}`,'_blank');
+  }
+  document.getElementById('form-state').style.display='none';
+  document.getElementById('success-state').style.display='flex';
+}
+
+let map;
+
+async function initMap() {
+    console.log("Initializing Google Map...");
+    const _center = { lat: -23.156869, lng: -45.791661 };//-23.156869, -45.791661,18 // PqTec, SJC, SP
+
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    map = new Map(document.getElementById("map"), {
+        zoom: 16,
+        center: _center,
+        mapTypeId: "satellite",
+        mapId: "29811bd89e4be758",
+    });
+
+    const marker = new AdvancedMarkerElement({
+        map,
+        content: buildContent(),
+        position: _center,
+        title: "Safety Cross AI @ NEXUS GROWTH - PIT Parque de Inovação Tecnológica São José dos Campos",
+
+    });
+
+    function buildContent() {
+        const content = document.createElement("div");
+        const ic_PIT = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHdpZHRoPSc0OCcgaGVpZ2h0PSc0OCcgdmlld0JveD0nMCAwIDQ4IDQ4JyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPg0KDQoJPGcgdHJhbnNmb3JtPSd0cmFuc2xhdGUoMCAwKSByb3RhdGUoMCwyNCwyNCknPg0KCQk8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCQkJLmNpcmNsZXNsY3RkIHsNCgkJCWZpbGw6IHRyYW5zcGFyZW50Ow0KCQkJc3Ryb2tlOiBibHVlOw0KCQkJc3Ryb2tlLXdpZHRoOiA1Ow0KCQkJfQ0KDQoJCQkucHVsc2VzZWxjdGQgew0KCQkJLXdlYmtpdC10cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOw0KCQkJdHJhbnNmb3JtLW9yaWdpbjogNTAlIDUwJTsNCgkJCS13ZWJraXQtYW5pbWF0aW9uLWR1cmF0aW9uOiAyczsNCgkJCWFuaW1hdGlvbi1kdXJhdGlvbjogMnM7DQoJCQktd2Via2l0LWFuaW1hdGlvbi1uYW1lOiBwdWxzZXNlbGN0ZDsNCgkJCWFuaW1hdGlvbi1uYW1lOiBwdWxzZXNlbGN0ZDsNCgkJCS13ZWJraXQtYW5pbWF0aW9uLWl0ZXJhdGlvbi1jb3VudDogaW5maW5pdGU7DQoJCQlhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZTsNCgkJCX0NCg0KCQkJQC13ZWJraXQta2V5ZnJhbWVzIHB1bHNlc2VsY3RkIHsNCgkJCWZyb20gew0KCQkJc3Ryb2tlLXdpZHRoOiAxMHB4Ow0KCQkJc3Ryb2tlLW9wYWNpdHk6IDE7DQoJCQktd2Via2l0LXRyYW5zZm9ybTogc2NhbGUoMC4zKTsNCgkJCXRyYW5zZm9ybTogc2NhbGUoMC4zKTsNCgkJCX0NCg0KCQkJdG8gew0KCQkJc3Ryb2tlLXdpZHRoOiAwOw0KCQkJc3Ryb2tlLW9wYWNpdHk6IDA7DQoJCQktd2Via2l0LXRyYW5zZm9ybTogc2NhbGUoMi4zKTsNCgkJCXRyYW5zZm9ybTogc2NhbGUoMi4zKTsNCgkJCX0NCgkJCX0NCg0KCQkJQGtleWZyYW1lcyBwdWxzZXNlbGN0ZCB7DQoJCQlmcm9tIHsNCgkJCXN0cm9rZS13aWR0aDogMTVweDsNCgkJCXN0cm9rZS1vcGFjaXR5OiAxOw0KCQkJLXdlYmtpdC10cmFuc2Zvcm06IHNjYWxlKDAuMyk7DQoJCQl0cmFuc2Zvcm06IHNjYWxlKDAuMyk7DQoJCQl9DQoNCgkJCXRvIHsNCgkJCXN0cm9rZS13aWR0aDogMDsNCgkJCXN0cm9rZS1vcGFjaXR5OiAwOw0KCQkJLXdlYmtpdC10cmFuc2Zvcm06IHNjYWxlKDIuMyk7DQoJCQl0cmFuc2Zvcm06IHNjYWxlKDIuMyk7DQoJCQl9DQoJCQl9DQoJCTwvc3R5bGU+DQoJCTxjaXJjbGUgY2xhc3M9J3B1bHNlc2VsY3RkIGNpcmNsZXNsY3RkJyBjeD0nNTAlJyBjeT0nNTAlJyByPScxMHB4Jz4NCgkJPC9jaXJjbGU+DQoJPC9nPg0KDQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMiAxMikgcm90YXRlKDAsMTIsMTIpIj4NCgk8Y2lyY2xlIGRpc3BsYXk9Im5vbmUiIGZpbGw9IiMyMTI1MjkiIGN4PSIxMiIgY3k9IjEyIiByPSIyNCIvPg0KCTxwb2x5Z29uIGZpbGw9IiNGRkMxMDciIHBvaW50cz0iMTIuMzkzLDE2LjEzMiAyNCwxNi4xMzIgMjAuMDAxLDIwLjEzMiAxMiwyMC4xMzIgCSIvPg0KCTxwb2x5Z29uIGZpbGw9IiNGRkMxMDciIHBvaW50cz0iMCwxNi4xMzIgMTEuNDg0LDE2LjEzMiAxMiwyMC4xMzIgNCwyMC4xMzIgCSIvPg0KCTxnPg0KCQk8Zz4NCgkJCTxjaXJjbGUgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGN4PSIxMi4wMDkiIGN5PSIxMC40OTIiIHI9IjMuMzMzIi8+DQoJCTwvZz4NCgkJPHBhdGggZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0xNS40NjEsMi4yMzNjLTEuMDU2LTAuNDUzLTIuMjI2LTAuNzA5LTMuNDUzLTAuNzA5DQoJCQljLTQuODI3LDAtOC43MTksMy44ODctOC43MTksOC42OTRjMCwyLjQwOCwwLjk3Nyw0LjU1NCwyLjU2OCw2LjExNGw2LjE1Miw2LjEzOWwwLDBsMC4wMDYsMC4wMDVsMi4zOTItMi4zNzVsMy43NzYtMy43NzMNCgkJCWMxLjU2MS0xLjU1NSwyLjUyNy0zLjcwMSwyLjUyNy02LjExQzIwLjcxMSw2LjYzNywxOC41NTUsMy41NjcsMTUuNDYxLDIuMjMzeiBNMTIuMDQ1LDEzLjIxOGMtMC4wMTIsMC0wLjAyNC0wLjAwMS0wLjAzNi0wLjAwMQ0KCQkJbDAsMGMtMS41MTItMC4wMTktMi43NTYtMS4yMzQtMi43NTYtMi43NzVjMC0xLjUzMywxLjI0My0yLjc0OCwyLjc1NS0yLjc2OWMxLjU0OCwwLDIuODQzLDEuMjIxLDIuODQzLDIuNzY5DQoJCQlDMTQuODUyLDExLjk5NCwxMy41OTMsMTMuMjE4LDEyLjA0NSwxMy4yMTh6Ii8+DQoJPC9nPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjMzUxQzc1IiBkPSJNOS4zNzgsMTAuNTEzYzAtMS40NjMsMS4xODgtMi42MjQsMi42MjktMi42NDRWMmwwLDBDNy40LDIsMy42ODYsNS43MTEsMy42ODYsMTAuMjk3DQoJCQljMCwyLjMsMC45MzEsNC4zNDksMi40NDksNS44MzdsNS44NzUsNS44NnYtOC44MzRDMTAuNTY2LDEzLjE0NCw5LjM3OCwxMS45ODQsOS4zNzgsMTAuNTEzeiIvPg0KCQk8cGF0aCBmaWxsPSIjMjBDOTk3IiBkPSJNMjAuMzE1LDEwLjI5OGMwLTMuNDE4LTIuMDU5LTYuMzQ5LTUuMDEyLTcuNjIzQzE0LjI5NywyLjI0MywxMy4xOCwyLDEyLjAwOCwydjUuODY5DQoJCQljMC4wMTIsMCwwLjAyNC0wLjAwMSwwLjAzNS0wLjAwMWMxLjQ3OSwwLDIuNjc5LDEuMTY3LDIuNjc5LDIuNjQ2YzAsMS40ODItMS4yMDEsMi42NS0yLjY3OSwyLjY1Yy0wLjAxLDAtMC4wMjIsMC0wLjAzNSwwdjguODMzDQoJCQlMMTIuMDE0LDIybDIuMjg0LTIuMjY3bDMuNjA0LTMuNjAyQzE5LjM5MywxNC42NDcsMjAuMzE1LDEyLjU5OSwyMC4zMTUsMTAuMjk4eiIvPg0KCTwvZz4NCjwvZz4NCjwvc3ZnPg0K";
+
+        content.innerHTML = `<div class="icon"><img src="${ic_PIT}"></div>`;
+        return content;
+    }
+}
+
+initMap();
+
+
+/* ══ IFRAME MODAL ════════════════════════════════════════════════════ */
+const PRODUCTS = {
+  omni:   { name: 'MapOmni',      url: 'https://mapomni.com/br',       color: '#2563EB' },
+  delta:  { name: 'DeltaOmni',    url: 'https://deltaomni.com/br',      color: '#06B6D4' },
+  safety: { name: 'Safety Cross', url: 'https://safetycross.com.br',    color: '#10B981' },
+};
+
+function openIframe(product) {
+  const p = PRODUCTS[product];
+  if (!p) return;
+
+  // Configura cor e nome
+  document.getElementById('iframe-dot').style.background = p.color;
+  document.getElementById('iframe-dot').style.boxShadow = `0 0 6px ${p.color}`;
+  document.documentElement.style.setProperty('--iframe-color', p.color);
+  document.getElementById('iframe-name').textContent = p.name;
+  document.getElementById('iframe-ext').href = p.url;
+
+  // Mostra loading, carrega iframe
+  document.getElementById('iframe-loading').classList.remove('hidden');
+  document.getElementById('iframe-frame').src = p.url;
+
+  // Abre modal
+  document.getElementById('iframe-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function iframeLoaded() {
+  document.getElementById('iframe-loading').classList.add('hidden');
+}
+
+function closeIframe() {
+  document.getElementById('iframe-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  // Para o iframe ao fechar (evita audio/video rodando)
+  setTimeout(() => {
+    document.getElementById('iframe-frame').src = '';
+  }, 300);
+}
+
+// ESC fecha o modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeIframe();
+});
+
+</script>
+
+<!-- ══ MODAL IFRAME PRODUTOS ══ -->
+<div class="iframe-overlay" id="iframe-modal">
+  <div class="iframe-topbar">
+    <div class="iframe-topbar-left">
+      <button class="iframe-back" onclick="closeIframe()">
+        ← MapOmega
+      </button>
+      <div class="iframe-divider"></div>
+      <div class="iframe-product-name">
+        <div class="iframe-product-dot" id="iframe-dot"></div>
+        <span id="iframe-name">—</span>
+      </div>
+    </div>
+    <div class="iframe-topbar-right">
+      <a class="iframe-open-btn" id="iframe-ext" href="#" target="_blank" rel="noopener">
+        <span class="btn-label">Abrir site completo</span> ↗
+      </a>
+      <button class="iframe-close" onclick="closeIframe()">✕</button>
+    </div>
+  </div>
+  <div class="iframe-body">
+    <div class="iframe-loading" id="iframe-loading">
+      <div class="iframe-spinner"></div>
+      <div class="iframe-loading-text">Carregando...</div>
+    </div>
+    <iframe id="iframe-frame" src="" title="Produto MapOmega"
+      allowfullscreen
+      onload="iframeLoaded()">
+    </iframe>
+  </div>
+</div>
+
+</body>
+</html>
