@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'>
+
+	<g transform='translate(0 0) rotate(0,24,24)'>
+		<style type="text/css">
+			.circleslctd {
+			fill: transparent;
+			stroke: blue;
+			stroke-width: 5;
+			}
+
+			.pulseselctd {
+			-webkit-transform-origin: 50% 50%;
+			transform-origin: 50% 50%;
+			-webkit-animation-duration: 2s;
+			animation-duration: 2s;
+			-webkit-animation-name: pulseselctd;
+			animation-name: pulseselctd;
+			-webkit-animation-iteration-count: infinite;
+			animation-iteration-count: infinite;
+			}
+
+			@-webkit-keyframes pulseselctd {
+			from {
+			stroke-width: 10px;
+			stroke-opacity: 1;
+			-webkit-transform: scale(0.3);
+			transform: scale(0.3);
+			}
+
+			to {
+			stroke-width: 0;
+			stroke-opacity: 0;
+			-webkit-transform: scale(2.3);
+			transform: scale(2.3);
+			}
+			}
+
+			@keyframes pulseselctd {
+			from {
+			stroke-width: 15px;
+			stroke-opacity: 1;
+			-webkit-transform: scale(0.3);
+			transform: scale(0.3);
+			}
+
+			to {
+			stroke-width: 0;
+			stroke-opacity: 0;
+			-webkit-transform: scale(2.3);
+			transform: scale(2.3);
+			}
+			}
+		</style>
+		<circle class='pulseselctd circleslctd' cx='50%' cy='50%' r='10px'>
+		</circle>
+	</g>
+
+<g transform="translate(12 12) rotate(0,12,12)">
+	<circle display="none" fill="#212529" cx="12" cy="12" r="24"/>
+	<polygon fill="#FFC107" points="12.393,16.132 24,16.132 20.001,20.132 12,20.132 	"/>
+	<polygon fill="#FFC107" points="0,16.132 11.484,16.132 12,20.132 4,20.132 	"/>
+	<g>
+		<g>
+			<circle fill="#FFFFFF" stroke="#FFFFFF" stroke-miterlimit="10" cx="12.009" cy="10.492" r="3.333"/>
+		</g>
+		<path fill="#FFFFFF" stroke="#FFFFFF" stroke-miterlimit="10" d="M15.461,2.233c-1.056-0.453-2.226-0.709-3.453-0.709
+			c-4.827,0-8.719,3.887-8.719,8.694c0,2.408,0.977,4.554,2.568,6.114l6.152,6.139l0,0l0.006,0.005l2.392-2.375l3.776-3.773
+			c1.561-1.555,2.527-3.701,2.527-6.11C20.711,6.637,18.555,3.567,15.461,2.233z M12.045,13.218c-0.012,0-0.024-0.001-0.036-0.001
+			l0,0c-1.512-0.019-2.756-1.234-2.756-2.775c0-1.533,1.243-2.748,2.755-2.769c1.548,0,2.843,1.221,2.843,2.769
+			C14.852,11.994,13.593,13.218,12.045,13.218z"/>
+	</g>
+	<g>
+		<path fill="#351C75" d="M9.378,10.513c0-1.463,1.188-2.624,2.629-2.644V2l0,0C7.4,2,3.686,5.711,3.686,10.297
+			c0,2.3,0.931,4.349,2.449,5.837l5.875,5.86v-8.834C10.566,13.144,9.378,11.984,9.378,10.513z"/>
+		<path fill="#20C997" d="M20.315,10.298c0-3.418-2.059-6.349-5.012-7.623C14.297,2.243,13.18,2,12.008,2v5.869
+			c0.012,0,0.024-0.001,0.035-0.001c1.479,0,2.679,1.167,2.679,2.646c0,1.482-1.201,2.65-2.679,2.65c-0.01,0-0.022,0-0.035,0v8.833
+			L12.014,22l2.284-2.267l3.604-3.602C19.393,14.647,20.315,12.599,20.315,10.298z"/>
+	</g>
+</g>
+</svg>
