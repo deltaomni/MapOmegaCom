@@ -1730,9 +1730,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 16px;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s;
+        }
+
+        @media (max-width: 600px) {
+            .modal-ov {
+                align-items: flex-start;
+                padding-top: 24px;
+            }
+            .modal-box {
+                max-height: calc(100vh - 48px);
+            }
         }
 
             .modal-ov.open {
@@ -1743,10 +1754,13 @@
         .modal-box {
             width: 96%;
             max-width: 480px;
+            max-height: 90vh;
             background: var(--surface);
             border: 1px solid rgba(56,189,248,0.15);
             border-radius: 12px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
             transform: translateY(24px) scale(0.97);
             transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
         }
@@ -1767,6 +1781,7 @@
             justify-content: space-between;
             padding: 18px 24px;
             border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
         }
 
         .modal-hdr-title {
@@ -1797,6 +1812,28 @@
 
         .modal-body {
             padding: 24px 24px 28px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(56,189,248,0.3) transparent;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: rgba(56,189,248,0.3);
+            border-radius: 2px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(56,189,248,0.5);
         }
 
         .modal-desc {
