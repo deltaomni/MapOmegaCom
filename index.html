@@ -433,6 +433,12 @@ footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;f
 .quiz-thanks .qi{font-size:30px;margin-bottom:10px}
 .quiz-thanks h4{font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:8px}
 .quiz-thanks p{font-size:13px;color:var(--muted);max-width:400px;margin:0 auto;line-height:1.6}
+
+/* GOOGLE FORMS (embedded) */
+.gform-wrap{position:relative;min-height:200px}
+.gform{display:block;width:100%;height:680px;border:0;border-radius:8px;background:#fff}
+@media(max-width:600px){.gform{height:72vh}}
+.gform-pending{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);border:1px dashed rgba(148,163,184,.3);border-radius:6px;padding:18px;text-align:center;line-height:1.6}
 </style>
 </head>
 <body>
@@ -737,27 +743,20 @@ footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;f
             <iframe src="mapomega-demo-3d.html" title="Interactive demo" loading="lazy"></iframe>
         </div>
     </div>
-
-    <!-- ══ MODAL — FULL PDF (HubSpot) ══ -->
     <div class="modal-ov" id="pdf-modal" onclick="handleOv(event,'pdf-modal')">
         <div class="modal-box">
             <div class="modal-head"><h3>Download full PDF</h3><button class="modal-close" onclick="closeModal('pdf-modal')" aria-label="Close">✕</button></div>
             <div class="modal-body">
                 <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:20px">The Samarco case, the cost analysis and the step-by-step deployment — in a single document.</p>
-                <!-- TODO: replace with an English HubSpot form (current form ID is the Portuguese one) -->
-                <script src="https://js.hsforms.net/forms/embed/51799504.js" defer></script>
-                <div class="hs-form-frame" data-region="na1" data-form-id="29d0f6c5-ced3-469c-9041-63d86ced43a2" data-portal-id="51799504"></div>
+                <div class="gform-wrap"><div class="gform-pending">Form loading… if it doesn't appear, email us and we'll send the material.</div><iframe class="gform" data-form="pdf" title="Full PDF request form" style="display:none" loading="lazy">Loading…</iframe></div>
             </div>
         </div>
     </div>
-
-    <!-- ══ MODAL — WBV BROCHURE (HubSpot) ══ -->
     <div class="modal-ov" id="vci-modal" onclick="handleOv(event,'vci-modal')">
         <div class="modal-box">
             <div class="modal-head"><h3>Download WBV brochure</h3><button class="modal-close" onclick="closeModal('vci-modal')" aria-label="Close">✕</button></div>
             <div class="modal-body">
-                <!-- TODO: replace with an English HubSpot form -->
-                <div class="hs-form-frame" data-region="na1" data-form-id="29d0f6c5-ced3-469c-9041-63d86ced43a2" data-portal-id="51799504"></div>
+                <div class="gform-wrap"><div class="gform-pending">Form loading… if it doesn't appear, email us and we'll send the material.</div><iframe class="gform" data-form="vci" title="WBV brochure request form" style="display:none" loading="lazy">Loading…</iframe></div>
             </div>
         </div>
     </div>
@@ -858,9 +857,24 @@ async function submitQuiz(){
 function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
 function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 function handleOv(e,id){if(e.target===document.getElementById(id))closeModal(id);}
-function openPDF(){openModal('pdf-modal');}
+// Google Forms: paste each form's "Embed HTML" src here (Send → <> → copy the URL inside src="...").
+// One form per material; the confirmation message of each form carries the download link.
+const FORMS={
+  pdf:'COLE_AQUI_URL_FORM_PDF_EN',
+  vci:'COLE_AQUI_URL_FORM_VCI_EN'
+};
+function loadForm(key){
+  const fr=document.querySelector('iframe.gform[data-form="'+key+'"]');
+  if(!fr||fr.getAttribute('src'))return;
+  const url=FORMS[key]||'';
+  if(!/^https:\/\/docs\.google\.com\/forms\//.test(url))return;
+  fr.src=url+(url.includes('embedded=true')?'':(url.includes('?')?'&':'?')+'embedded=true');
+  fr.style.display='block';
+  const p=fr.parentNode.querySelector('.gform-pending');if(p)p.remove();
+}
+function openPDF(){loadForm('pdf');openModal('pdf-modal');}
 function closePDF(){closeModal('pdf-modal');}
-function openVCI(){openModal('vci-modal');}
+function openVCI(){loadForm('vci');openModal('vci-modal');}
 function closeVCI(){closeModal('vci-modal');}
 function openQuiz(){openModal('quiz-modal');}
 function closeQuiz(){closeModal('quiz-modal');}
