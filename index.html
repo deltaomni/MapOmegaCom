@@ -142,6 +142,10 @@ nav.scrolled{background:rgba(15,23,42,.96);backdrop-filter:blur(12px);border-bot
 .sensor-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;padding:3px 8px;border-radius:20px;border:1px solid}
 .sensor-tag.calor{color:var(--warn);border-color:rgba(245,158,11,.4)}
 .sensor-tag.ruido{color:#06B6D4;border-color:rgba(6,182,212,.4)}
+.sensor-status{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:6px}
+.sensor-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.sensor-status.ok{color:var(--ok)}
+.sensor-status.dev{color:var(--muted)}
 .sensor-tag.vci{color:var(--crit);border-color:rgba(239,68,68,.4)}
 .sensor-card p{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.6}
 
@@ -574,19 +578,22 @@ footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;f
         <div class="inner">
             <div class="eyebrow">What we monitor</div>
             <h2 class="section-title reveal">The risks the standards already regulate.</h2>
-            <p class="section-sub reveal">We don't replace the official survey — we reference the same thresholds it uses, between one certified measurement and the next.</p>
+            <p class="section-sub reveal">We don't replace the official survey — we reference the same thresholds it uses, between one certified measurement and the next. The architecture has been multi-sensor from day one; today, whole-body vibration is the front validated in production.</p>
             <div class="sensor-grid">
                 <div class="sensor-card reveal">
                     <div class="sensor-top"><span class="sensor-name">Whole-body vibration</span><span class="sensor-tag vci">ISO 2631-1 · NHO-09</span></div>
                     <p>Exposure tracked by operator, by equipment, by haul route. Our strongest field proof.</p>
+                    <span class="sensor-status ok">Field-validated · TRL 8–9</span>
                 </div>
                 <div class="sensor-card reveal">
                     <div class="sensor-top"><span class="sensor-name">Noise</span><span class="sensor-tag ruido">NHO-01</span></div>
                     <p>Estimated daily dose per operator — not per workstation.</p>
+                    <span class="sensor-status dev">Under development · TRL 3–4</span>
                 </div>
                 <div class="sensor-card reveal">
                     <div class="sensor-top"><span class="sensor-name">Heat</span><span class="sensor-tag calor">NR-15 · WBGT</span></div>
                     <p>WBGT index, with a limit that varies by metabolic rate. Alerts recommend a break or a rotation.</p>
+                    <span class="sensor-status dev">Under development · TRL 3–4</span>
                 </div>
             </div>
         </div>
@@ -611,17 +618,12 @@ footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;f
                     <span class="deep-r">DEPLOYMENT</span>
                 </div>
                 <div class="deep-item">
-                    <span class="deep-l"><strong>Maturity of each format</strong> — technology readiness level (TRL) of the wearable and the integrated clip.</span>
+                    <span class="deep-l"><strong>Technology readiness</strong> — whole-body vibration validated in the field (TRL 8–9); noise and heat under development (TRL 3–4). The full per-format tech sheet is delivered at PoC.</span>
                     <span class="deep-r">TECH SHEET</span>
-                </div>
-                <div class="deep-item">
-                    <span class="deep-l"><strong>WBV brochure</strong> — what whole-body vibration does to the operator, before it does it to the equipment.</span>
-                    <span class="deep-r">TECHNICAL MATERIAL</span>
                 </div>
             </div>
             <div class="deep-ctas">
                 <button class="btn-primary" onclick="openPDF()">Download full PDF →</button>
-                <button class="btn-secondary" onclick="openVCI()">Download WBV brochure</button>
                 <button class="btn-secondary" onclick="openQuiz()">See if it's for you</button>
             </div>
         </div>
@@ -743,20 +745,13 @@ footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;f
             <iframe src="mapomega-demo-3d.html" title="Interactive demo" loading="lazy"></iframe>
         </div>
     </div>
+    <!-- ══ MODAL — FULL PDF (Google Forms) ══ -->
     <div class="modal-ov" id="pdf-modal" onclick="handleOv(event,'pdf-modal')">
         <div class="modal-box">
             <div class="modal-head"><h3>Download full PDF</h3><button class="modal-close" onclick="closeModal('pdf-modal')" aria-label="Close">✕</button></div>
             <div class="modal-body">
-                <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:20px">The Samarco case, the cost analysis and the step-by-step deployment — in a single document.</p>
+                <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:20px">The Germano Mine (Samarco) field case, the cost of inaction and the step-by-step deployment — in a single document.</p>
                 <div class="gform-wrap"><div class="gform-pending">Form loading… if it doesn't appear, email us and we'll send the material.</div><iframe class="gform" data-form="pdf" title="Full PDF request form" style="display:none" loading="lazy">Loading…</iframe></div>
-            </div>
-        </div>
-    </div>
-    <div class="modal-ov" id="vci-modal" onclick="handleOv(event,'vci-modal')">
-        <div class="modal-box">
-            <div class="modal-head"><h3>Download WBV brochure</h3><button class="modal-close" onclick="closeModal('vci-modal')" aria-label="Close">✕</button></div>
-            <div class="modal-body">
-                <div class="gform-wrap"><div class="gform-pending">Form loading… if it doesn't appear, email us and we'll send the material.</div><iframe class="gform" data-form="vci" title="WBV brochure request form" style="display:none" loading="lazy">Loading…</iframe></div>
             </div>
         </div>
     </div>
@@ -858,10 +853,9 @@ function openModal(id){document.getElementById(id).classList.add('open');documen
 function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
 function handleOv(e,id){if(e.target===document.getElementById(id))closeModal(id);}
 // Google Forms: paste each form's "Embed HTML" src here (Send → <> → copy the URL inside src="...").
-// One form per material; the confirmation message of each form carries the download link.
+// One form (full PDF); its confirmation message carries the download link.
 const FORMS={
-  pdf:'COLE_AQUI_URL_FORM_PDF_EN',
-  vci:'COLE_AQUI_URL_FORM_VCI_EN'
+    pdf:'https://docs.google.com/forms/d/e/1FAIpQLSeDFzJ7WNvr5_eD69OuDK3TBWvBnSmXKgsq4S0RCTZFN3KrJA/viewform?usp=header'
 };
 function loadForm(key){
   const fr=document.querySelector('iframe.gform[data-form="'+key+'"]');
@@ -874,13 +868,11 @@ function loadForm(key){
 }
 function openPDF(){loadForm('pdf');openModal('pdf-modal');}
 function closePDF(){closeModal('pdf-modal');}
-function openVCI(){loadForm('vci');openModal('vci-modal');}
-function closeVCI(){closeModal('vci-modal');}
 function openQuiz(){openModal('quiz-modal');}
 function closeQuiz(){closeModal('quiz-modal');}
 function openDemo(){document.getElementById('demo-modal').classList.add('open');document.body.style.overflow='hidden';}
 function closeDemo(){document.getElementById('demo-modal').classList.remove('open');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDemo();closeModal('pdf-modal');closeModal('vci-modal');closeModal('quiz-modal');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDemo();closeModal('pdf-modal');closeModal('quiz-modal');}});
 
 let map;
 
