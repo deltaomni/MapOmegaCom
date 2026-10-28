@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-9XJZJKNSP6"></script>
 <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date());gtag('config','G-9XJZJKNSP6');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MapOmega builds Risk Nowcasting solutions for heavy operations: see where risk is building up across your site — before the storm breaks.">
-<meta property="og:title" content="MapOmega — Risk Nowcasting for heavy operations">
-<meta property="og:description" content="See where risk is building up across your site — before the storm breaks.">
+<meta name="description" content="MapOmega builds modular solutions that anticipate risk in heavy operations: DeltaOmni, MapOmni, Events Scanner and Safety Cross.">
+<meta property="og:title" content="MapOmega — Solutions that anticipate risk">
+<meta property="og:description" content="MapOmega builds modular solutions that anticipate risk in heavy operations: DeltaOmni, MapOmni, Events Scanner and Safety Cross.">
 <meta property="og:image" content="https://mapomega.com/static_assets/img/mo_core_detect.jpg">
 <meta property="og:url" content="https://mapomega.com/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="pt_BR">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="MapOmega — Risk Nowcasting for heavy operations">
-<meta name="twitter:description" content="See where risk is building up across your site — before the storm breaks.">
+<meta name="twitter:title" content="MapOmega — Solutions that anticipate risk">
+<meta name="twitter:description" content="MapOmega builds modular solutions that anticipate risk in heavy operations: DeltaOmni, MapOmni, Events Scanner and Safety Cross.">
 <link rel="alternate" hreflang="en" href="https://mapomega.com/">
 <link rel="alternate" hreflang="pt-BR" href="https://mapomega.com.br/">
-<title>MapOmega — Risk Nowcasting for heavy operations</title>
+<title>MapOmega — Solutions that anticipate risk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
@@ -197,306 +196,268 @@ footer a{color:var(--sky);text-decoration:none}
 .modal-body{padding:28px 26px}
 .demo-lead{font-size:14px;color:var(--white);font-weight:300;line-height:1.7;margin-bottom:24px}
 .demo-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+/* CATALOG */
+.catalog{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.catalog{grid-template-columns:1fr}}
+.cat-card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:10px;padding:28px 24px;background:var(--slate);text-decoration:none;color:var(--white);transition:border-color .2s,transform .2s}
+.cat-card:hover{border-color:rgba(56,189,248,.4);transform:translateY(-2px)}
+.cat-feature{grid-column:1/-1;border-color:rgba(6,182,212,.35);background:rgba(6,182,212,.05)}
+.cat-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px}
+.cat-card h3{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.cat-line{font-size:15px;color:var(--white);font-weight:400;line-height:1.5;margin-bottom:10px}
+.cat-card p{font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.65}
+.cat-card .cat-line{color:var(--white)}
+.cat-go{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--sky);margin-top:auto;padding-top:18px}
+/* CHAIN */
+.chain{display:flex;flex-direction:column;gap:10px}
+.chain-step{display:grid;grid-template-columns:110px 1fr;align-items:center;gap:16px;border:1px dashed rgba(148,163,184,.35);border-radius:10px;padding:16px 20px;background:var(--panel);text-decoration:none;color:var(--white);transition:border-color .2s}
+.chain-step:hover{border-color:var(--sky)}
+.found-step{border:2px solid var(--sky);background:rgba(56,189,248,.08)}
+.delta-step{border:1px solid rgba(6,182,212,.5);background:rgba(6,182,212,.06)}
+.chain-verb{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--sky)}
+.chain-mod{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+.chain-mod small{display:block;font-family:'Inter',sans-serif;font-size:12.5px;font-weight:300;color:var(--muted);margin-top:2px}
+@media(max-width:480px){.chain-step{grid-template-columns:1fr;gap:6px}}
 </style>
 </head>
 <body>
+<div class="es-band" role="region" aria-label="Events Scanner launch">
+    <span class="es-new">NEW</span>
+    <span class="es-text"><strong>Events Scanner</strong>: field events logged by voice, pinned straight onto the 3D map of your site.</span>
+    <span class="es-short"><strong>Events Scanner</strong>: events by voice</span>
+    <a href="https://eventsscanner.com/?utm_source=mapomega_en&amp;utm_medium=band">Discover →</a>
+</div>
 
-    <div class="es-band" role="region" aria-label="Events Scanner launch">
-        <span class="es-new">NEW</span>
-        <span class="es-text"><strong>Events Scanner</strong>: field events logged by voice, pinned straight onto the 3D map of your site.</span>
-        <span class="es-short"><strong>Events Scanner</strong>: events by voice</span>
-        <a href="https://eventsscanner.com/?utm_source=mapomega_en&amp;utm_medium=band">Discover →</a>
-    </div>
+<nav id="nav">
+    <a class="nav-logo" href="#hero"><span class="nav-logo-dot"></span>MapOmega</a>
+    <ul class="nav-links">
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#fit">How they fit</a></li>
+        <li><a href="#deliver">How we deliver</a></li>
+        <li><a href="core.html">MapOmega Core</a></li>
+        <li><a href="why.html">Why MapOmega</a></li>
+        <li><a href="#" onclick="openDemo();return false" class="nav-cta">Book a demo →</a></li>
+        <li class="nav-lang"><a href="https://mapomega.com.br/" hreflang="pt-BR" lang="pt-BR">PT</a></li>
+    </ul>
+    <button class="nav-ham" onclick="toggleNav()" aria-label="Menu">☰</button>
+</nav>
+<div class="nav-mob" id="nav-mob">
+    <a href="#solutions" onclick="closeNav()">Solutions</a>
+    <a href="#fit" onclick="closeNav()">How they fit</a>
+    <a href="#deliver" onclick="closeNav()">How we deliver</a>
+    <a href="core.html">MapOmega Core</a>
+    <a href="why.html">Why MapOmega</a>
+    <a href="#" onclick="closeNav();openDemo();return false">Book a demo</a>
+    <a href="https://mapomega.com.br/" hreflang="pt-BR" lang="pt-BR">Português</a>
+</div>
 
-    <nav id="nav">
-        <a class="nav-logo" href="#hero"><span class="nav-logo-dot"></span>MapOmega</a>
-        <ul class="nav-links">
-            <li><a href="#problem">The problem</a></li>
-            <li><a href="#how">How it works</a></li>
-            <li><a href="#deliver">How we deliver</a></li>
-            <li><a href="core.html">MapOmega Core</a></li>
-            <li><a href="why.html">Why MapOmega</a></li>
-            <li><a href="#" onclick="openDemo();return false" class="nav-cta">Book a demo →</a></li>
-            <li class="nav-lang"><a href="https://mapomega.com.br/" hreflang="pt-BR" lang="pt-BR">PT</a></li>
-        </ul>
-        <button class="nav-ham" onclick="toggleNav()" aria-label="Menu">☰</button>
-    </nav>
-    <div class="nav-mob" id="nav-mob">
-        <a href="#problem" onclick="closeNav()">The problem</a>
-        <a href="#how" onclick="closeNav()">How it works</a>
-        <a href="#deliver" onclick="closeNav()">How we deliver</a>
-        <a href="core.html">MapOmega Core</a>
-        <a href="why.html">Why MapOmega</a>
-        <a href="#" onclick="closeNav();openDemo();return false">Book a demo</a>
-        <a href="https://mapomega.com.br/" hreflang="pt-BR" lang="pt-BR">Português</a>
-    </div>
-
-    <!-- ══ HERO ══ -->
-    <section id="hero">
-        <div class="inner">
-            <div class="hero-grid">
-                <div>
-                    <span class="hero-badge">Risk Nowcasting</span>
-                    <h1 class="hero-title">See where risk is building up across your site — <em>before the storm breaks.</em></h1>
-                    <p class="hero-sub">MapOmega builds Risk Nowcasting solutions for heavy operations. Every report, sensor and system is placed where it happened, weighed by severity and context, and governed until it's fixed.</p>
-                    <div class="hero-ctas">
-                        <button class="btn-primary" onclick="openDemo()">Book a 30-min demo →</button>
-                        <a class="btn-secondary" href="#how">See how it works</a>
-                    </div>
-                </div>
-                <div class="hero-visual" aria-hidden="true">
-                    <svg viewBox="0 0 520 360" role="img">
-                        <defs>
-                            <radialGradient id="storm" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#EF4444" stop-opacity=".55" />
-                                <stop offset="55%" stop-color="#F59E0B" stop-opacity=".25" />
-                                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0" />
-                            </radialGradient>
-                            <radialGradient id="haze" cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stop-color="#38BDF8" stop-opacity=".22" />
-                                <stop offset="100%" stop-color="#38BDF8" stop-opacity="0" />
-                            </radialGradient>
-                        </defs>
-                        <g stroke="rgba(148,163,184,.35)" fill="rgba(30,41,59,.9)" stroke-width="1">
-                            <polygon points="260,40 500,160 260,280 20,160" />
-                        </g>
-                        <g stroke="rgba(148,163,184,.25)" fill="rgba(22,32,50,1)" stroke-width="1">
-                            <polygon points="150,120 230,160 170,190 90,150" />
-                            <polygon points="270,90 350,130 300,155 220,115" />
-                            <polygon points="330,170 420,215 360,245 270,200" />
-                            <polygon points="180,205 250,240 205,262 135,227" />
-                        </g>
-                        <g fill="rgba(56,189,248,.18)" stroke="rgba(56,189,248,.5)">
-                            <polygon points="150,120 230,160 230,130 150,90" />
-                            <polygon points="230,160 170,190 170,160 230,130" />
-                            <polygon points="330,170 420,215 420,175 330,130" />
-                            <polygon points="420,215 360,245 360,205 420,175" />
-                        </g>
-                        <ellipse cx="170" cy="150" rx="110" ry="60" fill="url(#haze)" />
-                        <ellipse cx="365" cy="205" rx="95" ry="55" fill="url(#storm)" />
-                        <g fill="#38BDF8"><circle cx="120" cy="150" r="3" /><circle cx="200" cy="175" r="3" /><circle cx="250" cy="120" r="3" /><circle cx="300" cy="125" r="3" /><circle cx="190" cy="230" r="3" /><circle cx="150" cy="200" r="3" /></g>
-                        <g fill="#F59E0B"><circle cx="345" cy="200" r="4" /><circle cx="380" cy="215" r="4" /></g>
-                        <g fill="#EF4444"><circle cx="365" cy="205" r="5" /><circle cx="395" cy="198" r="5" /><circle cx="350" cy="222" r="5" /></g>
-                        <g font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1">
-                            <text x="40" y="320" fill="#94A3B8">MANY LOW-SEVERITY REPORTS · CLEAR SKY</text>
-                            <line x1="365" y1="250" x2="420" y2="300" stroke="#EF4444" stroke-width="1" />
-                            <text x="330" y="315" fill="#EF4444">STORM BUILDING · ACT HERE</text>
-                        </g>
-                    </svg>
-                    <div class="hv-caption">Risk = severity × context × accumulation over time</div>
+<!-- ══ HERO ══ -->
+<section id="hero">
+    <div class="inner">
+        <div class="hero-grid">
+            <div>
+                <span class="hero-badge">Risk anticipation</span>
+                <h1 class="hero-title">Anticipate risk <em>where it builds up.</em></h1>
+                <p class="hero-sub">MapOmega builds modular solutions that anticipate risk in heavy operations — from the first report in the field to the decision in the control room. Start with one module, or take the whole chain.</p>
+                <div class="hero-ctas">
+                    <a class="btn-primary" href="#solutions">Explore the solutions →</a>
+                    <button class="btn-secondary" onclick="openDemo()">Book a demo</button>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- ══ PROBLEM ══ -->
-    <section id="problem" class="alt">
-        <div class="inner">
-            <div class="eyebrow">The problem</div>
-            <h2 class="section-title reveal">More data than ever. <em>Still no forecast.</em></h2>
-            <p class="section-sub reveal">Sites already capture inspections, incidents, near misses, camera detections and maintenance orders. What's missing is the reading of all of it — where, how severe, and what to fix first.</p>
-            <div class="grid3">
-                <div class="card reveal"><span class="card-num">01</span><h3>Reports pile up unread</h3><p>Every report gets filed. Patterns surface weeks later, in a monthly review — if at all.</p></div>
-                <div class="card reveal"><span class="card-num">02</span><h3>Alarms without context</h3><p>Detection without weighting floods field teams with alerts. The one that matters gets lost in the noise.</p></div>
-                <div class="card reveal"><span class="card-num">03</span><h3>Silos never meet</h3><p>Safety, quality and maintenance each live in their own system. When they converge on the same spot, nobody sees it.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ HOW IT WORKS ══ -->
-    <section id="how">
-        <div class="inner">
-            <div class="eyebrow">How it works</div>
-            <h2 class="section-title reveal">Any signal in. <em>One reading of risk out.</em></h2>
-            <p class="section-sub reveal">Our solutions run on DeltaOmni, the Risk Nowcasting platform. Every signal lands on MapOmni — your site in 3D — and comes out as priorities and governance.</p>
-
-            <div class="arch reveal">
-                <div class="arch-head">MapOmega · the solution</div>
-                <div class="arch-inner">
-                    <div class="arch-title">DeltaOmni · the platform<small>Risk Nowcasting</small></div>
-                    <div class="arch-flow">
-                        <div class="arch-col">
-                            <div class="arch-label">Inputs</div>
-                            <div class="mod">Your existing systems<small>inspections, incidents, CMMS, quality</small></div>
-                            <div class="mod">Sensors<small>wearables, cameras, telemetry</small></div>
-                            <div class="mod"><a href="https://eventsscanner.com/">Events Scanner</a><small>reports by voice</small></div>
-                        </div>
-                        <div class="arch-arrow">→</div>
-                        <div class="arch-col">
-                            <div class="arch-label">Foundation</div>
-                            <div class="found"><strong>MapOmni</strong><span>Your site in 3D · indoor and outdoor</span></div>
-                        </div>
-                        <div class="arch-arrow">→</div>
-                        <div class="arch-col">
-                            <div class="arch-label">Outputs</div>
-                            <div class="mod">Risk Nowcasting<small>risk cloud in 3D · analysis modules</small></div>
-                            <div class="mod">Safety Cross<small>governance by area, shift and team</small></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="arch-legend"><span><i style="border:1px dashed rgba(148,163,184,.6)"></i>Module · also sold on its own</span><span><i style="border:2px solid #38BDF8;background:rgba(56,189,248,.1)"></i>Foundation</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ SAME EVENT ══ -->
-    <section id="difference" class="alt">
-        <div class="inner">
-            <div class="eyebrow">The difference</div>
-            <h2 class="section-title reveal">Same event. <em>Different risk.</em></h2>
-            <p class="section-sub reveal">Detection tells you something happened. Nowcasting tells you whether it matters — here. Each zone of your site carries the context your safety team defines: hazards, activity, people exposed.</p>
-            <div class="grid3">
-                <div class="event-card reveal">
-                    <div class="event-tag">Office floor</div>
-                    <div class="event-what">Missing hard hat</div>
-                    <div class="meter"><span style="width:8%;background:var(--ok)"></span></div>
-                    <div class="event-level" style="color:var(--ok)">Noise · no action</div>
-                </div>
-                <div class="event-card reveal">
-                    <div class="event-tag">Scaffold, level 3</div>
-                    <div class="event-what">Missing hard hat</div>
-                    <div class="meter"><span style="width:88%;background:var(--crit)"></span></div>
-                    <div class="event-level" style="color:var(--crit)">Storm cell · act now</div>
-                </div>
-                <div class="event-card reveal">
-                    <div class="event-tag">Loading bay, night shift</div>
-                    <div class="event-what">No reports at all</div>
-                    <div class="meter"><span style="width:55%;background:var(--warn)"></span></div>
-                    <div class="event-level" style="color:var(--warn)">Silence · investigate</div>
-                    <p>Where reports should exist and don't, that's a signal too.</p>
-                </div>
-            </div>
-            <p class="pull reveal">A hundred reports of paper on the floor weigh less than one report of a fire hazard. <em>Risk is severity in context, accumulating over time</em> — and it clears when the fix is made.</p>
-        </div>
-    </section>
-
-    <!-- ══ TOOLS ══ -->
-    <section id="tools">
-        <div class="inner">
-            <div class="eyebrow">Works with what you have</div>
-            <h2 class="section-title reveal">We don't replace your tools. <em>We read them.</em></h2>
-            <p class="section-sub reveal">Keep your checklists, cameras and EHS suite. MapOmega reads their signals and shows where risk is building up across all of them. Where capture is missing, we fill the gap.</p>
-            <div class="chips reveal">
-                <span class="chip"><b>Safety</b> · inspections & incidents</span>
-                <span class="chip"><b>Detection</b> · AI cameras</span>
-                <span class="chip"><b>Maintenance</b> · work orders</span>
-                <span class="chip"><b>Quality</b> · non-conformities</span>
-                <span class="chip"><b>Compliance</b> · audits</span>
-                <span class="chip"><b>Exposure</b> · wearables</span>
-            </div>
-            <p class="note reveal">We start with safety. Quality, maintenance and compliance read on the same map, because risk doesn't respect organizational silos. Integrations are scoped with your team during the pilot.</p>
-        </div>
-    </section>
-
-    <!-- ══ HOW WE DELIVER ══ -->
-    <section id="deliver" class="alt">
-        <div class="inner">
-            <div class="eyebrow">How we deliver</div>
-            <h2 class="section-title reveal">A solution, <em>not a toolkit.</em></h2>
-            <p class="section-sub reveal">You don't assemble anything. We build your site in 3D with our field-proven mapping method and set the whole chain up with your team.</p>
-            <div class="grid4">
-                <div class="card reveal"><span class="card-num">01 · MAP</span><h3>Your site in 3D</h3><p>Built with our proprietary mapping method, organized by areas, workplaces and access routes.</p></div>
-                <div class="card reveal"><span class="card-num">02 · CONNECT</span><h3>Your sources</h3><p>The systems you already use, plus Events Scanner or sensors where capture is missing.</p></div>
-                <div class="card reveal"><span class="card-num">03 · CONTEXT</span><h3>Your rules</h3><p>Your safety engineers define the hazards and context of each zone. The platform applies them to every event.</p></div>
-                <div class="card reveal"><span class="card-num">04 · GOVERN</span><h3>Your hierarchy</h3><p>Safety Cross assigns ownership and keeps the history by area, shift, team, site and organization.</p></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ PROOF + CORE ══ -->
-    <section id="core">
-        <div class="inner">
-            <div class="split">
-                <div class="reveal">
-                    <div class="eyebrow">Born in mining</div>
-                    <span class="core-badge">MapOmega Core</span>
-                    <h2 class="section-title">Our first vertical solution, <em>running at Samarco.</em></h2>
-                    <p><strong>MapOmega Core</strong> is DeltaOmni configured for heavy-equipment operators: Events Scanner and an exposure wearable as inputs, MapOmni as the 3D engine, a geolocated priority list and Safety Cross as outputs.</p>
-                    <p>It monitors whole-body vibration shift by shift at Samarco's Germano Mine — the field case behind everything we build.</p>
-                    <div class="stats">
-                        <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years of industrial methodology</div></div>
-                        <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Steel mills mapped</div></div>
-                        <div class="stat"><div class="stat-num">1</div><div class="stat-label">Live mining case</div></div>
-                    </div>
-                    <a class="btn-primary" href="core.html">Explore MapOmega Core →</a>
-                </div>
-                <div class="reveal">
-                    <img src="static_assets/img/mapomega_wbv_low.jpg" alt="Heavy-equipment operator wearing the MapOmega Core sensor">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ WHY ══ -->
-    <section id="why">
-        <div class="inner-nar">
-            <div class="eyebrow" style="justify-content:center">Why MapOmega</div>
-            <p class="why-quote reveal">The tools changed. <em>The methods didn't.</em></p>
-            <p class="why-body reveal">Industrial safety is bolting AI onto methods designed in the 1980s — faster forms, more cameras, more alerts. We rebuilt the method instead, on the validated foundations of safety: severity, exposure, the hierarchy of controls. Don't automate the past. Nowcast the risk.</p>
-            <a class="btn-secondary" href="why.html">Read the manifesto →</a>
-        </div>
-    </section>
-
-    <!-- ══ CTA ══ -->
-    <section id="cta-band">
-        <div class="inner">
-            <h2 class="cta-title reveal">Start with <em>one site.</em></h2>
-            <p class="cta-sub reveal">In 30 minutes, we'll show you a site in 3D, the risk cloud building up, and the priority list it produces.</p>
-            <div class="cta-row">
-                <button class="btn-primary" onclick="openDemo()">Book a demo →</button>
-                <a href="mailto:comercial@mapomega.com" class="btn-secondary">comercial@mapomega.com</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ ECOSYSTEM ══ -->
-    <section id="pit">
-        <div class="inner">
-            <div class="eyebrow reveal">Ecosystem</div>
-            <div class="pit-grid">
-                <div class="reveal">
-                    <h2 class="pit-hl">Developed at the heart of<br><em>Brazil's largest technology hub.</em></h2>
-                    <p class="pit-body">MapOmega operates within the <strong>NEXUS</strong> ecosystem of the Technology Innovation Park (PIT) in São José dos Campos, alongside Embraer, ITA, INPE and UNIFESP — with an emerging presence in <strong>Irving, Texas</strong>.</p>
-                    <p class="partners-lbl">Partners & Credentials</p>
-                    <div class="partners-row">
-                        <span class="p-badge">PIT · SJC</span>
-                        <span class="p-badge">NEXUS Growth</span>
-                        <span class="p-badge">SEBRAE ES</span>
-                        <span class="p-badge">Base27</span>
-                        <span class="p-badge">Ventiur</span>
-                        <span class="p-badge">SAMARCO</span>
-                        <span class="p-badge">Mining Hub</span>
-                    </div>
-                </div>
-                <div class="reveal"><div id="map"></div></div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="inner">
-            <img height="50" src="static_assets/mo_logos/MapOmega_Tecnologia_Logo_Long_1200x360.png" alt="MapOmega Tecnologia"><br>
-            Irving, TX · São José dos Campos, SP · <a href="mailto:comercial@mapomega.com">comercial@mapomega.com</a><br>
-            MapOmega · All maps speak, ours tells the whole story<br>
-            <span style="opacity:.5">© 2026 · All rights reserved</span>
-        </div>
-    </footer>
-
-    <!-- ══ MODAL — BOOK A DEMO ══ -->
-    <div class="modal-ov" id="demo-modal" onclick="if(event.target===this)closeDemo()">
-        <div class="modal-box">
-            <div class="modal-head"><h3>Book a demo</h3><button class="modal-close" onclick="closeDemo()" aria-label="Close">✕</button></div>
-            <div class="modal-body">
-                <p class="demo-lead">In 30 minutes: a site in 3D, events landing on it by voice, the risk cloud building up, and the priority list it produces.</p>
-                <div class="demo-ctas">
-                    <a class="btn-primary" href="https://calendly.com/deltaomni/30min?utm_source=mapomega.com&amp;utm_medium=demo" target="_blank" rel="noopener">Pick a time →</a>
-                    <a class="btn-secondary" href="https://wa.me/5521996485172?text=Hello%2C+I%27d+like+a+MapOmega+demo" target="_blank" rel="noopener">WhatsApp</a>
-                </div>
+            <div class="chain reveal" aria-label="The anticipation chain">
+                <a class="chain-step" href="https://eventsscanner.com/"><span class="chain-verb">Capture</span><span class="chain-mod">Events Scanner<small>reports by voice</small></span></a>
+                <a class="chain-step found-step" href="https://mapomni.com/"><span class="chain-verb">Locate</span><span class="chain-mod">MapOmni<small>your site in 3D</small></span></a>
+                <a class="chain-step delta-step" href="https://deltaomni.com/"><span class="chain-verb">Nowcast</span><span class="chain-mod">DeltaOmni<small>where risk is building up</small></span></a>
+                <a class="chain-step" href="https://safetycross.com.br/"><span class="chain-verb">Govern</span><span class="chain-mod">Safety Cross<small>who owns it, and the proof</small></span></a>
             </div>
         </div>
     </div>
+</section>
 
-    <script>
+<!-- ══ SOLUTIONS CATALOG ══ -->
+<section id="solutions" class="alt">
+    <div class="inner">
+        <div class="eyebrow">Solutions</div>
+        <h2 class="section-title reveal">Modular by design. <em>Valuable on their own.</em></h2>
+        <p class="section-sub reveal">Each module solves a problem by itself, and each one opens the way to the next. Together, they anticipate risk across your whole site.</p>
+        <div class="catalog">
+            <a class="cat-card cat-feature reveal" href="https://deltaomni.com/">
+                <span class="cat-tag" style="color:var(--delta)">Platform</span>
+                <h3>DeltaOmni</h3>
+                <p class="cat-line">Risk Nowcasting: see where risk is building up across your site — before the storm breaks.</p>
+                <p>Reads every report, sensor and system, weighs each signal by severity and the context of the place it happened, and turns it into a risk cloud in 3D, a priority list and analysis modules.</p>
+                <span class="cat-go">deltaomni.com →</span>
+            </a>
+            <a class="cat-card reveal" href="https://mapomni.com/">
+                <span class="cat-tag" style="color:var(--sky)">Foundation</span>
+                <h3>MapOmni</h3>
+                <p class="cat-line">Your site in 3D, indoor and outdoor.</p>
+                <p>Georeferenced and navigable, built with our field-proven mapping method. The foundation of DeltaOmni — also available via API for your own dashboards.</p>
+                <span class="cat-go">mapomni.com →</span>
+            </a>
+            <a class="cat-card reveal" href="https://eventsscanner.com/">
+                <span class="cat-tag" style="color:var(--delta)">Input</span>
+                <h3>Events Scanner</h3>
+                <p class="cat-line">Field events by voice, in seconds.</p>
+                <p>No forms. Every report lands on the exact spot of the site, classified by AI and ready for analysis.</p>
+                <span class="cat-go">eventsscanner.com →</span>
+            </a>
+            <a class="cat-card reveal" href="https://safetycross.com.br/">
+                <span class="cat-tag" style="color:var(--safety)">Governance</span>
+                <h3>Safety Cross</h3>
+                <p class="cat-line">Ownership and history, by hierarchy.</p>
+                <p>A real-time summary of what happens in each area, shift, team, site and organization — the same reading everywhere, whatever the layout of the plant.</p>
+                <span class="cat-go">safetycross.com.br →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══ HOW THEY FIT ══ -->
+<section id="fit">
+    <div class="inner">
+        <div class="eyebrow">How they fit</div>
+        <h2 class="section-title reveal">One chain, <em>from signal to decision.</em></h2>
+        <p class="section-sub reveal">DeltaOmni is the platform. MapOmni is its foundation. Inputs and outputs plug in as modules. Vertical solutions are DeltaOmni configured for one problem.</p>
+        <div class="arch reveal">
+            <div class="arch-head">MapOmega · the solution</div>
+            <div class="arch-inner">
+                <div class="arch-title">DeltaOmni · the platform<small>Risk Nowcasting</small></div>
+                <div class="arch-flow">
+                    <div class="arch-col">
+                        <div class="arch-label">Inputs</div>
+                        <div class="mod">Your existing systems<small>inspections, incidents, CMMS, quality</small></div>
+                        <div class="mod">Sensors<small>wearables, cameras, telemetry</small></div>
+                        <div class="mod"><a href="https://eventsscanner.com/">Events Scanner</a><small>reports by voice</small></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-col">
+                        <div class="arch-label">Foundation</div>
+                        <div class="found"><strong>MapOmni</strong><span>Your site in 3D · indoor and outdoor</span></div>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-col">
+                        <div class="arch-label">Outputs</div>
+                        <div class="mod"><a href="https://deltaomni.com/#modules">Risk Nowcasting</a><small>risk cloud in 3D · analysis modules</small></div>
+                        <div class="mod"><a href="https://safetycross.com.br/">Safety Cross</a><small>governance by area, shift and team</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="arch-legend"><span><i style="border:1px dashed rgba(148,163,184,.6)"></i>Module · also sold on its own</span><span><i style="border:2px solid #38BDF8;background:rgba(56,189,248,.1)"></i>Foundation</span></div>
+        </div>
+        <div style="margin-top:28px" class="reveal"><a class="btn-secondary" href="https://deltaomni.com/">See the platform in detail →</a></div>
+    </div>
+</section>
+
+<!-- ══ HOW WE DELIVER ══ -->
+<section id="deliver" class="alt">
+    <div class="inner">
+        <div class="eyebrow">How we deliver</div>
+        <h2 class="section-title reveal">A solution, <em>not a toolkit.</em></h2>
+        <p class="section-sub reveal">You don't assemble anything. We build your site in 3D with our field-proven mapping method and set the whole chain up with your team.</p>
+        <div class="grid4">
+            <div class="card reveal"><span class="card-num">01 · MAP</span><h3>Your site in 3D</h3><p>Built with our proprietary mapping method, organized by areas, workplaces and access routes.</p></div>
+            <div class="card reveal"><span class="card-num">02 · CONNECT</span><h3>Your sources</h3><p>The systems you already use, plus Events Scanner or sensors where capture is missing.</p></div>
+            <div class="card reveal"><span class="card-num">03 · CONTEXT</span><h3>Your rules</h3><p>Your safety engineers define the hazards and context of each zone. The platform applies them to every event.</p></div>
+            <div class="card reveal"><span class="card-num">04 · GOVERN</span><h3>Your hierarchy</h3><p>Safety Cross assigns ownership and keeps the history by area, shift, team, site and organization.</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ CORE ══ -->
+<section id="core">
+    <div class="inner">
+        <div class="split">
+            <div class="reveal">
+                <div class="eyebrow">An industrial application</div>
+                <span class="core-badge">MapOmega Core</span>
+                <h2 class="section-title">The whole chain, <em>for heavy-equipment operators.</em></h2>
+                <p><strong>MapOmega Core</strong> is DeltaOmni configured for mining fleets: Events Scanner and an exposure wearable as inputs, MapOmni as the 3D engine, a geolocated priority list and Safety Cross as outputs.</p>
+                <p>Born at Samarco's Germano Mine, where whole-body vibration inference was validated in a proof of concept — the field case behind everything we build.</p>
+                <div class="stats">
+                    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Years of industrial methodology</div></div>
+                    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">Steel mills mapped</div></div>
+                    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Mining field case</div></div>
+                </div>
+                <a class="btn-primary" href="core.html">Explore MapOmega Core →</a>
+            </div>
+            <div class="reveal">
+                <img src="static_assets/img/mapomega_wbv_low.jpg" alt="Heavy-equipment operator wearing the MapOmega Core sensor">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ WHY ══ -->
+<section id="why">
+    <div class="inner-nar">
+        <div class="eyebrow" style="justify-content:center">Why MapOmega</div>
+        <p class="why-quote reveal">The tools changed. <em>The methods didn't.</em></p>
+        <p class="why-body reveal">Industrial safety is bolting AI onto methods designed in the 1980s — faster forms, more cameras, more alerts. We rebuilt the method instead, on the validated foundations of safety: severity, exposure, the hierarchy of controls. Don't automate the past. Nowcast the risk.</p>
+        <a class="btn-secondary" href="why.html">Read the manifesto →</a>
+    </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section id="cta-band">
+    <div class="inner">
+        <h2 class="cta-title reveal">Start with <em>one site.</em></h2>
+        <p class="cta-sub reveal">In 30 minutes, we'll show you a site in 3D, the risk cloud building up, and the priority list it produces.</p>
+        <div class="cta-row">
+            <button class="btn-primary" onclick="openDemo()">Book a demo →</button>
+            <a href="mailto:comercial@mapomega.com" class="btn-secondary">comercial@mapomega.com</a>
+        </div>
+    </div>
+</section>
+
+<!-- ══ ECOSYSTEM ══ -->
+<section id="pit">
+    <div class="inner">
+        <div class="eyebrow reveal">Ecosystem</div>
+        <div class="pit-grid">
+            <div class="reveal">
+                <h2 class="pit-hl">Developed at the heart of<br><em>Brazil's largest technology hub.</em></h2>
+                <p class="pit-body">MapOmega operates within the <strong>NEXUS</strong> ecosystem of the Technology Innovation Park (PIT) in São José dos Campos, alongside Embraer, ITA, INPE and UNIFESP — with an emerging presence in <strong>Irving, Texas</strong>.</p>
+                <p class="partners-lbl">Partners &amp; Credentials</p>
+                <div class="partners-row">
+                    <span class="p-badge">PIT · SJC</span>
+                    <span class="p-badge">NEXUS Growth</span>
+                    <span class="p-badge">SEBRAE ES</span>
+                    <span class="p-badge">Base27</span>
+                    <span class="p-badge">Ventiur</span>
+                    <span class="p-badge">SAMARCO</span>
+                    <span class="p-badge">Mining Hub</span>
+                </div>
+            </div>
+            <div class="reveal"><div id="map"></div></div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <img height="50" src="static_assets/mo_logos/MapOmega_Tecnologia_Logo_Long_1200x360.png" alt="MapOmega Tecnologia"><br>
+        Irving, TX · São José dos Campos, SP · <a href="mailto:comercial@mapomega.com">comercial@mapomega.com</a><br>
+        MapOmega · All maps speak, ours tells the whole story<br>
+        <span style="opacity:.5">© 2026 · All rights reserved</span>
+    </div>
+</footer>
+
+<div class="modal-ov" id="demo-modal" onclick="if(event.target===this)closeDemo()">
+    <div class="modal-box">
+        <div class="modal-head"><h3>Book a demo</h3><button class="modal-close" onclick="closeDemo()" aria-label="Close">✕</button></div>
+        <div class="modal-body">
+            <p class="demo-lead">In 30 minutes: a site in 3D, events landing on it by voice, the risk cloud building up, and the priority list it produces.</p>
+            <div class="demo-ctas">
+                <a class="btn-primary" href="https://calendly.com/deltaomni/30min?utm_source=mapomega.com&amp;utm_medium=demo" target="_blank" rel="noopener">Pick a time →</a>
+                <a class="btn-secondary" href="https://wa.me/5521996485172?text=Hello%2C+I%27d+like+a+MapOmega+demo" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
 window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);});
 function toggleNav(){document.getElementById('nav-mob').classList.toggle('open');}
 function closeNav(){document.getElementById('nav-mob').classList.remove('open');}
@@ -507,7 +468,6 @@ const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.tar
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 let map;
-
 async function initMap() {
             const _center = { lat: -23.156869, lng: -45.791661 }; // PIT, São José dos Campos, SP
 
@@ -537,7 +497,7 @@ async function initMap() {
             }
 }
 
-initMap();</script>
-
+initMap();
+</script>
 </body>
 </html>
