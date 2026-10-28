@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9XJZJKNSP6"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date());gtag('config','G-9XJZJKNSP6');</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MapOmega Core continuously monitors occupational exposure of heavy-equipment operators in mining — whole-body vibration, noise and heat, shift by shift.">
+<meta property="og:title" content="MapOmega Core — Continuous occupational exposure monitoring">
+<meta property="og:description" content="Vibration, Noise and Heat — the list of who needs your attention most, every shift.">
+<meta property="og:image" content="https://mapomega.com/static_assets/img/mo_core_detect.jpg">
+<meta property="og:image:alt" content="Heavy-equipment operator in a mine, wearing an exposure sensor on the belt — MapOmega Core">
+<meta property="og:url" content="https://mapomega.com/core.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="MapOmega Core — Continuous occupational exposure monitoring">
+<meta name="twitter:description" content="Vibration, Noise and Heat — the list of who needs your attention most, every shift.">
+<meta name="twitter:image" content="https://mapomega.com/static_assets/img/mo_core_detect.jpg">
+<link rel="alternate" hreflang="en" href="https://mapomega.com/core.html">
+<link rel="alternate" hreflang="pt-BR" href="https://mapomega.com.br/core.html">
+<title>MapOmega Core — Continuous occupational exposure monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script>
+(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await(a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({key:"AIzaSyC8F1bVIGsP_nHBaOBgBpDCsRd-LYeFUsA",v:"weekly",language:"en"});
+</script>
+<style>
+:root{
+  --sky:#38BDF8;--slate:#0F172A;--surface:#1E293B;--panel:#162032;--muted:#94A3B8;--white:#EFF6FF;
+  --border:rgba(255,255,255,.07);
+  --ok:#10B981;--warn:#F59E0B;--crit:#EF4444;
+  --omni:#2563EB;--delta:#06B6D4;--safety:#10B981;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--slate);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden}
+.inner{max-width:1080px;margin:0 auto;padding:0 40px}
+@media(max-width:600px){.inner{padding:0 20px}}
+.inner-nar{max-width:760px;margin:0 auto;padding:0 40px}
+@media(max-width:600px){.inner-nar{padding:0 20px}}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--sky);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:20px;height:1px;background:var(--sky)}
+.section-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(26px,3.6vw,38px);font-weight:700;letter-spacing:-.02em;margin-bottom:16px;line-height:1.2}
+.section-title em{font-style:normal;color:var(--sky)}
+.section-sub{font-size:15px;font-weight:300;color:var(--muted);line-height:1.7;max-width:600px;margin-bottom:44px}
+section{padding:96px 0}
+@media(max-width:768px){section{padding:64px 0}}
+.btn-primary{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--slate);background:var(--sky);border:none;padding:14px 26px;border-radius:4px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s}
+.btn-primary:hover{background:#7DD3FC;box-shadow:0 0 24px rgba(56,189,248,.3)}
+.btn-secondary{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sky);background:transparent;border:1px solid rgba(56,189,248,.3);padding:13px 20px;border-radius:4px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:all .2s}
+.btn-secondary:hover{border-color:var(--sky);background:rgba(56,189,248,.06)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.photo-slot{position:relative;border-radius:8px;overflow:hidden;background:linear-gradient(135deg,#1a2740 0%,#0d1626 100%);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;min-height:260px}
+.photo-slot::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.05) 1px,transparent 1px);background-size:28px 28px}
+.photo-slot-label{position:relative;z-index:2;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:24px;border:1px dashed rgba(148,163,184,.25);border-radius:4px;background:rgba(15,23,42,.6)}
+
+/* EVENTS SCANNER BAND */
+.es-band{position:fixed;top:0;left:0;right:0;z-index:210;height:44px;display:flex;align-items:center;justify-content:center;gap:14px;padding:0 20px;background:var(--delta);color:var(--slate);font-family:'Inter',sans-serif;font-size:13.5px;line-height:1.2}
+.es-band .es-new{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.14em;border:1px solid rgba(15,23,42,.45);padding:3px 7px;border-radius:2px;white-space:nowrap}
+.es-band .es-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.es-band .es-text strong{font-weight:700}
+.es-band .es-short{display:none;white-space:nowrap}
+.es-band a{color:var(--slate);font-weight:700;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.es-band a:hover{color:#000}
+.es-band .es-cta-short{display:none}
+@media(max-width:760px){.es-band .es-text{display:none}.es-band .es-short{display:inline}}
+@media(max-width:480px){.es-band{font-size:13px;gap:10px}.es-band .es-new{display:none}.es-band .es-cta-long{display:none}.es-band .es-cta-short{display:inline}}
+html{scroll-padding-top:110px}
+
+/* NAV */
+nav{position:fixed;top:44px;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:16px 48px;transition:background .3s}
+nav.scrolled{background:rgba(15,23,42,.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--white);letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:9px}
+.nav-logo span.tag{color:var(--sky)}
+.nav-logo-dot{width:7px;height:7px;border-radius:50%;background:var(--sky);box-shadow:0 0 10px var(--sky)}
+.nav-links{display:flex;gap:22px;list-style:none;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{color:var(--sky)!important;border:1px solid rgba(56,189,248,.3);padding:7px 13px!important;border-radius:2px}
+.nav-cta:hover{background:rgba(56,189,248,.1)!important}
+.nav-lang{border-left:1px solid var(--border);padding-left:16px}
+.nav-ham{display:none;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.nav-mob{display:none;position:fixed;top:104px;left:0;right:0;z-index:199;background:rgba(15,23,42,.98);backdrop-filter:blur(12px);flex-direction:column;padding:14px 22px;border-bottom:1px solid var(--border)}
+.nav-mob a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border)}
+.nav-mob a:last-child{border-bottom:none}
+.nav-mob.open{display:flex}
+@media(max-width:880px){.nav-links{display:none}.nav-ham{display:block}}
+@media(max-width:600px){nav{padding:14px 20px}}
+
+/* HERO */
+#hero{min-height:92vh;display:flex;align-items:center;padding:164px 0 60px;position:relative;overflow:hidden;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(56,189,248,.06) 0%,transparent 65%),var(--slate)}
+#hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.03) 1px,transparent 1px);background-size:56px 56px}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+.core-badge{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;letter-spacing:.3em;color:var(--warn);border:1px solid rgba(245,158,11,.35);padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:22px}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4.6vw,50px);font-weight:700;line-height:1.12;letter-spacing:-.02em;margin-bottom:20px}
+.hero-sub{font-size:17px;font-weight:400;color:var(--white);line-height:1.6;max-width:480px;margin-bottom:12px}
+.hero-sub2{font-size:14px;font-weight:300;color:var(--muted);line-height:1.7;max-width:480px;margin-bottom:32px}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero-tags{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--border);padding:5px 10px;border-radius:20px}
+
+/* BENEFITS */
+.benef-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media(max-width:820px){.benef-grid{grid-template-columns:1fr}}
+.benef-card{border:1px solid var(--border);border-radius:10px;padding:30px 26px;background:var(--panel)}
+.benef-photo{width:100%;height:120px;border-radius:8px;margin-bottom:18px;position:relative;overflow:hidden;background:linear-gradient(135deg,#1a2740 0%,#0d1626 100%);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.benef-photo::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(56,189,248,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,.05) 1px,transparent 1px);background-size:20px 20px}
+.benef-photo span{position:relative;z-index:2;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;padding:14px;border:1px dashed rgba(148,163,184,.25);border-radius:4px;background:rgba(15,23,42,.6)}
+.benef-card h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin-bottom:10px}
+.benef-card p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.65}
+
+/* HOW IT WORKS */
+#como-funciona{background:var(--panel)}
+.device-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:44px}
+@media(max-width:780px){.device-grid{grid-template-columns:1fr}}
+.device-card{border:1px solid var(--border);border-radius:10px;padding:26px;background:var(--slate)}
+.device-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.device-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--sky)}
+.device-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin-bottom:18px}
+.device-flow{display:flex;align-items:center;gap:9px;margin-bottom:16px;justify-content:space-between;}
+.df-step{font-family:'JetBrains Mono',monospace;font-size:10.5px;height:54px;color:var(--white);border:1px solid var(--border);border-radius:6px;padding:9px 11px;line-height:1.5;background:var(--panel)}
+.df-step small{color:var(--muted);font-size:9.5px;display:block;margin-top:3px}
+.df-step.df-cloud{color:var(--sky);border-color:rgba(56,189,248,.4)}
+.df-arrow{color:var(--muted);font-size:13px}
+.device-desc{font-size:13px;color:var(--muted);font-weight:300;line-height:1.65}
+.hiw-cta{text-align:center}
+
+/* SENSORS */
+.sensor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:820px){.sensor-grid{grid-template-columns:1fr}}
+.sensor-card{border:1px solid var(--border);border-radius:10px;padding:24px;background:var(--panel);display:flex;flex-direction:column;gap:10px}
+.sensor-top{display:flex;justify-content:space-between;align-items:center}
+.sensor-name{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+.sensor-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;padding:3px 8px;border-radius:20px;border:1px solid}
+.sensor-tag.calor{color:var(--warn);border-color:rgba(245,158,11,.4)}
+.sensor-tag.ruido{color:#06B6D4;border-color:rgba(6,182,212,.4)}
+.sensor-status{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:7px;margin-top:auto;padding-top:6px}
+.sensor-status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.sensor-status.ok{color:var(--ok)}
+.sensor-status.dev{color:var(--muted)}
+.sensor-tag.vci{color:var(--crit);border-color:rgba(239,68,68,.4)}
+.sensor-card p{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.6}
+
+/* DEEP DIVE */
+#aprofundamento{background:var(--panel)}
+.deep-list{display:flex;flex-direction:column;gap:0;margin-bottom:36px;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--slate)}
+.deep-item{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 24px;border-bottom:1px solid var(--border)}
+.deep-item:last-child{border-bottom:none}
+.deep-l{font-size:14px;color:var(--white);font-weight:400}
+.deep-l strong{font-weight:600}
+.deep-r{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--sky);white-space:nowrap;letter-spacing:.05em}
+@media(max-width:600px){.deep-item{flex-direction:column;align-items:flex-start;gap:6px}}
+.deep-ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+
+/* FAQ */
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-item summary{cursor:pointer;padding:20px 4px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--white);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';color:var(--sky);font-size:18px;font-weight:400}
+.faq-item[open] summary::after{content:'−'}
+.faq-item p{padding:0 4px 20px;font-size:13.5px;color:var(--muted);font-weight:300;line-height:1.7;max-width:640px}
+
+/* CTA BAND */
+#cta-band{text-align:center;background:radial-gradient(ellipse 70% 60% at 50% 30%,rgba(56,189,248,.07) 0%,transparent 70%),var(--slate)}
+.cta-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(24px,3.6vw,36px);font-weight:700;max-width:680px;margin:0 auto 32px;line-height:1.25}
+.cta-title em{color:var(--sky);font-style:normal}
+.cta-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ABOUT MAPOMEGA */
+#sobre{background:var(--panel);border-top:1px solid var(--border)}
+.sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:56px}
+@media(max-width:860px){.sobre-grid{grid-template-columns:1fr;gap:32px}}
+.sobre-grid p{font-size:14px;color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:16px}
+.sobre-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sobre-stat{border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;background:var(--slate)}
+.sobre-num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--warn)}
+.sobre-label{font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace;margin-top:6px;letter-spacing:.03em}
+.ext-note{border:1px solid rgba(148,163,184,.25);background:rgba(148,163,184,.04);border-radius:8px;padding:18px 20px;font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-top:20px}
+#map{width:100%;height:320px;border-radius:10px;border:1px solid var(--border)}
+footer{padding:32px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
+
+    /* ── S7 PIT ───────────────────────────────────────────────────────── */
+    #pit {
+        padding: 112px 0 0;
+        background: var(--panel);
+        border-top: 1px solid var(--border);
+    }
+
+    .pit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: start;
+    }
+
+    @media(max-width:760px) {
+        .pit-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+    }
+
+    .pit-hl {
+        font-family: 'Space Grotesk',sans-serif;
+        font-size: clamp(20px,2.5vw,30px);
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 14px;
+        line-height: 1.3;
+    }
+
+        .pit-hl em {
+            font-style: normal;
+            color: var(--sky);
+        }
+
+    .pit-body {
+        font-size: 14px;
+        font-weight: 300;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 24px;
+    }
+
+        .pit-body strong {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+    .partners-lbl {
+        font-family: 'JetBrains Mono',monospace;
+        font-size: 9px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 14px;
+    }
+
+    .partners-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 32px;
+    }
+
+    .p-badge {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-family: 'Space Grotesk',sans-serif;
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+        transition: border-color 0.2s,color 0.2s;
+    }
+
+        .p-badge:hover {
+            border-color: rgba(56,189,248,0.2);
+            color: var(--white);
+        }
+
+    /* Custom map */
+
+    #map {
+        height: 470px;
+        max-width: 500px;
+    }
+
+    @media(max-width:860px) {
+        #map {
+            max-width: 90vw;
+        }
+    }
+
+    @media(max-width:480px) {
+        #map {
+            max-width: 90vw;
+        }
+    }
+
+    .pit-map-outer {
+        position: relative;
+    }
+
+    .pit-map-frame {
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        position: relative;
+    }
+
+        .pit-map-frame iframe {
+            display: block;
+            width: 100%;
+            height: 320px;
+            border: none;
+            filter: saturate(0.15) brightness(0.65) contrast(1.15);
+        }
+
+    .pit-cursor {
+        position: absolute;
+        z-index: 10;
+        pointer-events: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .pit-cursor-rings {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .pit-cursor-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(56,189,248,0.5);
+        transform: translate(-50%,-50%);
+        top: 0;
+        left: 0;
+        animation: cring 2.4s ease-out infinite;
+    }
+
+        .pit-cursor-ring:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .pit-cursor-ring:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            animation-delay: 0.6s;
+        }
+
+        .pit-cursor-ring:nth-child(3) {
+            width: 64px;
+            height: 64px;
+            animation-delay: 1.2s;
+        }
+
+    @keyframes cring {
+        0% {
+            opacity: 0.8;
+            transform: translate(-50%,-50%) scale(0.4)
+        }
+
+        100% {
+            opacity: 0;
+            transform: translate(-50%,-50%) scale(1)
+        }
+    }
+
+    .pit-cursor-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--sky);
+        box-shadow: 0 0 16px var(--sky),0 0 32px rgba(56,189,248,0.4);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+
+    .pit-cursor-label {
+        position: absolute;
+        top: calc(50% + 16px);
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-family: 'JetBrains Mono',monospace;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--sky);
+        background: rgba(15,23,42,0.85);
+        padding: 4px 10px;
+        border-radius: 4px;
+        border: 1px solid rgba(56,189,248,0.2);
+    }
+
+    .pit-map-frame::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 8px;
+        box-shadow: inset 0 0 0 1px rgba(56,189,248,0.15);
+        pointer-events: none;
+    }
+
+
+/* MODALS */
+.modal-ov{position:fixed;inset:0;background:rgba(5,9,17,.88);backdrop-filter:blur(6px);z-index:500;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-ov.open{display:flex}
+.modal-box{background:var(--slate);border:1px solid var(--border);border-radius:12px;max-width:520px;width:100%;max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+@media(max-width:600px){
+  .modal-ov{padding:0;align-items:flex-end}
+  .modal-box{max-width:100%;max-height:92vh;border-radius:16px 16px 0 0}
+}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--slate)}
+.modal-head h3{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700}
+.modal-close{background:none;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px}
+.modal-close:hover{color:var(--white);border-color:var(--sky)}
+.modal-body{padding:28px 26px}
+
+.demo-lead{font-size:14px;color:var(--white);font-weight:300;line-height:1.7;margin-bottom:12px}
+.demo-note{font-size:13px;color:var(--muted);font-weight:300;line-height:1.6;margin-bottom:24px}
+.demo-ctas{display:flex;gap:12px;flex-wrap:wrap}
+@media(max-width:600px){.demo-ctas a{flex:1 1 100%;justify-content:center}}
+
+.quiz-title{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;margin-bottom:6px}
+.quiz-sub{font-size:13px;color:var(--muted);font-weight:300;margin-bottom:22px;line-height:1.6}
+.quiz-q{margin-bottom:20px}
+.quiz-q label{display:block;font-size:13px;color:var(--white);font-weight:500;margin-bottom:9px}
+.quiz-opts{display:flex;flex-wrap:wrap;gap:8px}
+.quiz-opt{font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px 13px;border:1px solid var(--border);border-radius:20px;color:var(--muted);cursor:pointer;transition:all .15s;background:transparent}
+.quiz-opt:hover{border-color:rgba(56,189,248,.4)}
+.quiz-opt.sel{border-color:var(--sky);color:var(--sky);background:rgba(56,189,248,.08)}
+.quiz-email{width:100%;padding:11px 13px;background:var(--panel);border:1px solid var(--border);border-radius:6px;color:var(--white);font-size:13px;font-family:'Inter',sans-serif}
+.quiz-email::placeholder{color:var(--muted)}
+.quiz-actions{margin-top:22px}
+.quiz-thanks{display:none;text-align:center;padding:16px 0}
+.quiz-thanks .qi{font-size:30px;margin-bottom:10px}
+.quiz-thanks h4{font-family:'Space Grotesk',sans-serif;font-size:17px;margin-bottom:8px}
+.quiz-thanks p{font-size:13px;color:var(--muted);max-width:400px;margin:0 auto;line-height:1.6}
+
+/* GOOGLE FORMS (embedded) */
+.gform-wrap{position:relative;min-height:200px}
+.gform{display:block;width:100%;height:680px;border:0;border-radius:8px;background:#fff}
+@media(max-width:600px){.gform{height:72vh}}
+.gform-pending{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);border:1px dashed rgba(148,163,184,.3);border-radius:6px;padding:18px;text-align:center;line-height:1.6}
+</style>
+</head>
+<body>
+
+    <div class="es-band" role="region" aria-label="Events Scanner launch">
+        <span class="es-new">NEW</span>
+        <span class="es-text"><strong>Events Scanner</strong>: field events logged by voice, pinned straight onto the 3D map of your plant. Launching now.</span>
+        <span class="es-short"><strong>Events Scanner</strong>: events by voice</span>
+        <!-- TODO: confirm the English Events Scanner URL (eventsscanner.com currently redirects to the Portuguese page) -->
+        <a href="https://eventsscanner.com/?utm_source=mapomega_en&amp;utm_medium=band"><span class="es-cta-long">Discover Events Scanner →</span><span class="es-cta-short">Discover →</span></a>
+    </div>
+
+    <nav id="nav">
+        <a class="nav-logo" href="/"><span class="nav-logo-dot"></span><span class="tag">MapOmega</span> Core</a>
+        <ul class="nav-links">
+            <li><a href="/">← MapOmega</a></li>
+            <li><a href="#beneficios">Benefits</a></li>
+            <li><a href="#como-funciona">How it works</a></li>
+            <li><a href="#sensores">Sensors</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#sobre">About</a></li>
+            <li><a href="#cta-band" class="nav-cta">Talk to the team →</a></li>
+            <li class="nav-lang"><a href="https://mapomega.com.br/core.html" hreflang="pt-BR" lang="pt-BR">PT</a></li>
+        </ul>
+        <button class="nav-ham" onclick="toggleNav()" aria-label="Menu">☰</button>
+    </nav>
+    <div class="nav-mob" id="nav-mob">
+        <a href="/">← MapOmega</a>
+        <a href="#beneficios" onclick="closeNav()">Benefits</a>
+        <a href="#como-funciona" onclick="closeNav()">How it works</a>
+        <a href="#sensores" onclick="closeNav()">Sensors</a>
+        <a href="#faq" onclick="closeNav()">FAQ</a>
+        <a href="#sobre" onclick="closeNav()">About</a>
+        <a href="#cta-band" onclick="closeNav()">Talk to the team</a>
+        <a href="https://mapomega.com.br/core.html" hreflang="pt-BR" lang="pt-BR">Português</a>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <section id="hero">
+        <div class="inner">
+            <div class="hero-grid">
+                <div>
+                    <span class="core-badge">MapOmega Core</span>
+                    <h1 class="hero-title reveal visible">Continuously monitors the occupational exposure of heavy-equipment operators.</h1>
+                    <p class="hero-sub">Vibration, Noise and Heat — the list of who needs your attention most, every shift.</p>
+                    <p class="hero-sub2">Built for mining operations, where the standards already define what to measure — and a once-a-year survey can't keep measuring all the time.</p>
+                    <div class="hero-ctas">
+                        <button class="btn-primary" onclick="scrollToId('como-funciona')">See how it works →</button>
+                        <button class="btn-secondary" onclick="openPDF()">Download full PDF</button>
+                    </div>
+                    <div class="hero-tags">
+                        <span class="hero-tag">ISO 2631-1 · NHO-09 · WBV</span>
+                        <span class="hero-tag">NHO-01 · Noise</span>
+                        <span class="hero-tag">NR-15 · Heat (WBGT)</span>
+                    </div>
+                </div>
+                <div class="photo-slot" style="min-height:400px">
+                    <div class="photo-slot-label">
+                        <img id="img_hero" height="600" src="static_assets/img/mapomega_wbv_low.jpg" alt="Heavy-equipment operator wearing the MapOmega Core sensor" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ BENEFITS ══ -->
+    <section id="beneficios" style="background-image: url('static_assets/img/mo_core_background.png')">
+        <div class="inner">
+            <div class="eyebrow">Benefits</div>
+            <h2 class="section-title reveal">What changes in your day-to-day.</h2>
+            <div class="benef-grid">
+                <div class="benef-card reveal">
+                    <div class="benef-photo"><img width="300" src="static_assets/img/mo_core_detect.jpg" alt="Continuous detection" /></div>
+                    <h3>Continuous detection,<br />No hidden surprises</h3>
+                    <p>Removes the uncertainty between one official survey and the next — without replacing the certified report.</p>
+                </div>
+                <div class="benef-card reveal">
+                    <div class="benef-photo"><img height="300" width="300" src="static_assets/img/mo_core_anticipate.jpg" alt="Risk anticipation" /></div>
+                    <h3>Risk anticipation,<br />A pulse every 10 seconds</h3>
+                    <p>Track the build-up of critical exposure and prevent risk individually — every 10 seconds, for every operator.</p>
+                </div>
+                <div class="benef-card reveal">
+                    <div class="benef-photo"><img height="300" width="300" src="static_assets/img/mo_core_alert.jpg" alt="Alerts and priorities" /></div>
+                    <h3>Alerts and priorities,<br />In your hand, not in a BI report</h3>
+                    <p>The app shows what matters in real time; the web platform gives you full configuration and priorities by equipment, operator or location in the mine.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ HOW IT WORKS ══ -->
+    <section id="como-funciona">
+        <div class="inner">
+            <div class="eyebrow">How it works</div>
+            <h2 class="section-title reveal">One analysis.<br />Two ways to monitor.</h2>
+            <p class="section-sub reveal">A web platform of individualized priorities, with a 3D spatial map — fed independently by two sensor formats, chosen according to your operation's priorities.</p>
+
+            <div class="device-grid">
+                <div class="device-card reveal">
+                    <div class="device-top">
+                        <div class="device-tag">Format 1</div>
+                    </div>
+                    <div class="device-name">Chest wearable + app</div>
+                    <div class="device-flow d-flex align-items-center justify-content-between gap-2">
+                        <span class="df-step d-flex flex-column justify-content-center">Sensor<br><small>200 Hz</small></span>
+                        <span class="df-arrow">→</span>
+                        <span class="df-step d-flex flex-column justify-content-center">App · BLE<br><small>inference in the app</small></span>
+                        <span class="df-arrow">→</span>
+                        <span class="df-step df-cloud d-flex flex-column justify-content-center">Cloud<br><small>Wi-Fi/LTE · every 10 s</small></span>
+                    </div>
+                    <p class="device-desc">Sampling at 200 Hz, streamed over BLE to the operator's app. Inference runs in the app, which sends an equivalent acceleration value to the cloud every 10 seconds.</p>
+                </div>
+                <div class="device-card reveal">
+                    <div class="device-top">
+                        <div class="device-tag">Format 2</div>
+                    </div>
+                    <div class="device-name">Integrated belt clip</div>
+                    <div class="device-flow d-flex align-items-center justify-content-between gap-2">
+                        <span class="df-step d-flex flex-column justify-content-center">Sensor + inference<br><small>200 Hz · at the edge</small></span>
+                        <span class="df-arrow">→</span>
+                        <span class="df-step df-cloud d-flex flex-column justify-content-center">Cloud<br><small>Wi-Fi/LTE · every 10 s</small></span>
+                    </div>
+                    <p class="device-desc">Same sampling rate, but inference runs inside the device itself — straight to the cloud, no intermediate app.</p>
+                </div>
+            </div>
+
+            <div class="hiw-cta reveal">
+                <button class="btn-primary" onclick="openDemo()">Book a demo →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SENSORS ══ -->
+    <section id="sensores">
+        <div class="inner">
+            <div class="eyebrow">What we monitor</div>
+            <h2 class="section-title reveal">The risks the standards already regulate.</h2>
+            <p class="section-sub reveal">We don't replace the official survey — we reference the same thresholds it uses, between one certified measurement and the next. The architecture has been multi-sensor from day one; today, whole-body vibration is the front validated in production.</p>
+            <div class="sensor-grid">
+                <div class="sensor-card reveal">
+                    <div class="sensor-top"><span class="sensor-name">Whole-body vibration</span><span class="sensor-tag vci">ISO 2631-1 · NHO-09</span></div>
+                    <p>Exposure tracked by operator, by equipment, by haul route. Our strongest field proof.</p>
+                    <span class="sensor-status ok">Field-validated · TRL 8–9</span>
+                </div>
+                <div class="sensor-card reveal">
+                    <div class="sensor-top"><span class="sensor-name">Noise</span><span class="sensor-tag ruido">NHO-01</span></div>
+                    <p>Estimated daily dose per operator — not per workstation.</p>
+                    <span class="sensor-status dev">Under development · TRL 3–4</span>
+                </div>
+                <div class="sensor-card reveal">
+                    <div class="sensor-top"><span class="sensor-name">Heat</span><span class="sensor-tag calor">NR-15 · WBGT</span></div>
+                    <p>WBGT index, with a limit that varies by metabolic rate. Alerts recommend a break or a rotation.</p>
+                    <span class="sensor-status dev">Under development · TRL 3–4</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ DEEP DIVE ══ -->
+    <section id="aprofundamento">
+        <div class="inner">
+            <div class="eyebrow">Want to go deeper?</div>
+            <h2 class="section-title reveal">It's all in the full PDF.</h2>
+            <div class="deep-list reveal">
+                <div class="deep-item">
+                    <span class="deep-l"><strong>Real-world case</strong> — 3D model and whole-body vibration dashboard running at Samarco's Germano Mine.</span>
+                    <span class="deep-r">TECHNICAL CASE</span>
+                </div>
+                <div class="deep-item">
+                    <span class="deep-l"><strong>The cost of not anticipating</strong> — lost-time injuries, Brazil's FAP/RAT insurance factor, and why expensive automation alone won't solve it.</span>
+                    <span class="deep-r">COST ANALYSIS</span>
+                </div>
+                <div class="deep-item">
+                    <span class="deep-l"><strong>How we deliver</strong> — PoC, pilot, contract, and a quick fact sheet for your IT team (API, data, integration).</span>
+                    <span class="deep-r">DEPLOYMENT</span>
+                </div>
+                <div class="deep-item">
+                    <span class="deep-l"><strong>Technology readiness</strong> — whole-body vibration validated in the field (TRL 8–9); noise and heat under development (TRL 3–4). The full per-format tech sheet is delivered at PoC.</span>
+                    <span class="deep-r">TECH SHEET</span>
+                </div>
+            </div>
+            <div class="deep-ctas">
+                <button class="btn-primary" onclick="openPDF()">Download full PDF →</button>
+                <button class="btn-secondary" onclick="openQuiz()">See if it's for you</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ FAQ ══ -->
+    <section id="faq">
+        <div class="inner-nar">
+            <div class="eyebrow">FAQ</div>
+            <h2 class="section-title reveal">Before you ask.</h2>
+            <div class="reveal">
+                <details class="faq-item">
+                    <summary>Is MapOmega Core a certified measuring instrument?</summary>
+                    <p>No — and that isn't its role. Legal proof of compliance still requires the official survey, with a calibrated instrument. <strong>MapOmega Core</strong> covers the gap between one survey and the next, showing who is most exposed day to day.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Does it replace certified measurement?</summary>
+                    <p>No. It shortens the blind interval between reports, with continuous readings aligned to the standard's thresholds — but the legal proof of compliance remains the official survey.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Where is the data stored?</summary>
+                    <p>In the cloud, by default. On-premises hosting can be evaluated after a technical assessment with your IT team.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Does it integrate with our timekeeping system?</summary>
+                    <p>Yes, via REST API — exposure is automatically linked to shift and operator.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Does it only work with these two sensors?</summary>
+                    <p>Today we have two formats in the field — a chest sensor with an app, and a standalone belt clip. The platform was designed to take in other sources as your operation requires.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA BAND ══ -->
+    <section id="cta-band">
+        <div class="inner">
+            <h2 class="cta-title reveal">We monitor what health requires.<br><em>We reveal what operations can't see yet.</em></h2>
+            <div class="cta-row">
+                <a href="https://wa.me/5521996485172?text=Hello%2C+I%27d+like+a+MapOmega+assessment" target="_blank" class="btn-primary">Talk to the team →</a>
+                <button class="btn-secondary" onclick="openPDF()">Download full PDF</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ ABOUT MAPOMEGA ══ -->
+    <section id="sobre">
+        <div class="inner">
+            <div class="eyebrow">About MapOmega</div>
+            <h2 class="section-title reveal">Not a startup testing theory.</h2>
+            <div class="sobre-grid">
+                <div class="reveal">
+                    <p>MapOmega builds technology to anticipate risks, prevent accidents, minimize losses and reveal hidden opportunities in industrial operations. <strong>MapOmega Core</strong> is the first application of that mission, focused on mining.</p>
+                    <p>Over 30 years of industrial methodology, validated in more than 30 steel mills, underpin the product — this isn't startup theory, it's hands-on practice from people who have been on the shop floor.</p>
+                </div>
+                <div>
+                    <div class="sobre-stats reveal">
+                        <div class="sobre-stat"><div class="sobre-num">30+</div><div class="sobre-label">Years of industrial methodology</div></div>
+                        <div class="sobre-stat"><div class="sobre-num">30+</div><div class="sobre-label">Steel mills validated</div></div>
+                        <div class="sobre-stat"><div class="sobre-num">1</div><div class="sobre-label">Real mining case — Samarco</div></div>
+                    </div>
+                    <div class="ext-note">The wearable sensor is the first data source. The platform was designed to take in others — camera, radar, in-cab sensor — as your operation requires.</div>
+                </div>
+            </div>
+            <!-- ══ S7 PIT ══ -->
+            <section id="pit">
+                <div class="inner">
+                    <p class="eyebrow reveal" style="margin-bottom:16px">Ecosystem</p>
+
+                    <div class="pit-grid">
+                        <div class="reveal">
+                            <h2 class="pit-hl">Developed at the heart of<br><em>Brazil's largest technology hub.</em></h2>
+                            <p class="pit-body">MapOmega operates within the <strong>NEXUS</strong> ecosystem, the innovation hub of the Technology Innovation Park (PIT) in São José dos Campos — one of the world's top five innovation environments, alongside Embraer, ITA, INPE and UNIFESP.</p>
+                            <p class="pit-body">This ecosystem is more than an address. It is the network of technical validation, acceleration and partnership behind every product in the MapOmega portfolio.</p>
+                            <p class="partners-lbl">Partners & Credentials</p>
+                            <div class="partners-row">
+                                <span class="p-badge">PIT · SJC</span>
+                                <span class="p-badge">NEXUS Growth</span>
+                                <span class="p-badge">SEBRAE ES</span>
+                                <span class="p-badge">Base27</span>
+                                <span class="p-badge">Ventiur</span>
+                                <span class="p-badge">SAMARCO</span>
+                                <span class="p-badge">Mining Hub</span>
+                            </div>
+                        </div>
+                        <div class="reveal">
+                            <div class="pit-map-outer">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="height:80px"></div>
+            </section>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="inner">
+            <div class="foot-inner">
+                <div class="foot-brand">
+                    <img height="50" src="static_assets/mo_logos/MapOmega_Tecnologia_Logo_Long_1200x360.png" alt="MapOmega Tecnologia" />
+                </div>
+                <div class="foot-meta">MapOmega Tecnologia da Informação Ltda.<br />· CNPJ 50.385.577/0001-37 ·<br><span style="opacity:0.5">© 2026 · All rights reserved</span></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══ MODAL — BOOK A DEMO ══ -->
+    <div class="modal-ov" id="demo-modal" onclick="handleOv(event,'demo-modal')">
+        <div class="modal-box">
+            <div class="modal-head"><h3>Book a demo</h3><button class="modal-close" onclick="closeDemo()" aria-label="Close">✕</button></div>
+            <div class="modal-body">
+                <p class="demo-lead">In 30 minutes, we'll show you MapOmega Core running on the 3D model of the Germano Mine: the whole-body vibration heatmap, the per-operator priority list and the flow from sensor to platform.</p>
+                <p class="demo-note">Pick a time slot, or talk to the team directly.</p>
+                <div class="demo-ctas">
+                    <a class="btn-primary" href="https://calendly.com/deltaomni/30min?utm_source=mapomega.com&amp;utm_medium=demo" target="_blank" rel="noopener">Pick a time →</a>
+                    <a class="btn-secondary" href="https://wa.me/5521996485172?text=Hello%2C+I%27d+like+to+book+a+MapOmega+Core+demo" target="_blank" rel="noopener">Message us on WhatsApp</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ MODAL — FULL PDF (Google Forms) ══ -->
+    <div class="modal-ov" id="pdf-modal" onclick="handleOv(event,'pdf-modal')">
+        <div class="modal-box">
+            <div class="modal-head"><h3>Download full PDF</h3><button class="modal-close" onclick="closeModal('pdf-modal')" aria-label="Close">✕</button></div>
+            <div class="modal-body">
+                <p style="font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;margin-bottom:20px">The Germano Mine (Samarco) field case, the cost of inaction and the step-by-step deployment — in a single document.</p>
+                <div class="gform-wrap"><div class="gform-pending">Form loading… if it doesn't appear, email us and we'll send the material.</div><iframe class="gform" data-form="pdf" title="Full PDF request form" style="display:none" loading="lazy">Loading…</iframe></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ MODAL — VALIDATION QUIZ ══ -->
+    <div class="modal-ov" id="quiz-modal" onclick="handleOv(event,'quiz-modal')">
+        <div class="modal-box">
+            <div class="modal-head"><h3>See if it's for you</h3><button class="modal-close" onclick="closeModal('quiz-modal')" aria-label="Close">✕</button></div>
+            <div class="modal-body">
+                <div id="quiz-form">
+                    <div class="quiz-title">Help us validate the concept</div>
+                    <p class="quiz-sub">We've already validated this concept in a live operation. Now we want to know whether it fits your reality — your answers help shape how the product scales.</p>
+                    <div class="quiz-q">
+                        <label>How many heavy vehicles does your operation run today?</label>
+                        <div class="quiz-opts" data-q="equipamentos">
+                            <button class="quiz-opt" type="button">Up to 20</button>
+                            <button class="quiz-opt" type="button">20–50</button>
+                            <button class="quiz-opt" type="button">50–150</button>
+                            <button class="quiz-opt" type="button">150+</button>
+                        </div>
+                    </div>
+                    <div class="quiz-q">
+                        <label>How do you monitor vibration / noise / heat today?</label>
+                        <div class="quiz-opts" data-q="metodo">
+                            <button class="quiz-opt" type="button">We don't</button>
+                            <button class="quiz-opt" type="button">Annual manual survey</button>
+                            <button class="quiz-opt" type="button">Fixed system on the equipment</button>
+                            <button class="quiz-opt" type="button">Another wearable system</button>
+                        </div>
+                    </div>
+                    <div class="quiz-q">
+                        <label>What's your biggest pain point today?</label>
+                        <div class="quiz-opts" data-q="dor">
+                            <button class="quiz-opt" type="button">Cost of lost-time injuries</button>
+                            <button class="quiz-opt" type="button">Regulatory compliance</button>
+                            <button class="quiz-opt" type="button">Lack of operational data</button>
+                            <button class="quiz-opt" type="button">Cost of automation</button>
+                        </div>
+                    </div>
+                    <div class="quiz-q">
+                        <label>Your email — to receive the validation results</label>
+                        <input type="email" class="quiz-email" id="quiz-email" placeholder="you@company.com">
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn-primary" onclick="submitQuiz()">Submit answers</button>
+                    </div>
+                </div>
+                <div class="quiz-thanks" id="quiz-thanks">
+                    <div class="qi">✅</div>
+                    <h4>Thanks for helping us validate.</h4>
+                    <p>Once we consolidate the responses, you'll be the first to see the results — and our team may reach out to learn more about your operation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);});
+function toggleNav(){document.getElementById('nav-mob').classList.toggle('open');}
+function closeNav(){document.getElementById('nav-mob').classList.remove('open');}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+document.querySelectorAll('.quiz-opts').forEach(group=>{
+  group.querySelectorAll('.quiz-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      group.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+    });
+  });
+});
+function getQuizAnswers(){
+  const answers={};
+  document.querySelectorAll('.quiz-opts').forEach(group=>{
+    const sel=group.querySelector('.quiz-opt.sel');
+    answers[group.dataset.q]=sel?sel.textContent:null;
+  });
+  answers.email=document.getElementById('quiz-email').value.trim();
+  return answers;
+}
+async function submitQuiz(){
+  const answers=getQuizAnswers();
+  if(!answers.email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(answers.email)){
+    document.getElementById('quiz-email').style.borderColor='var(--crit)';
+    return;
+  }
+  // Market-validation survey endpoint — replace when available
+  const ENDPOINT='https://SEU-ENDPOINT.azurewebsites.net/api/quiz-validacao';
+  try{
+    await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({...answers,origem:'core-mapomega-en',idioma:'en',ts:new Date().toISOString()})});
+  }catch(e){/* silent fallback */}
+  document.getElementById('quiz-form').style.display='none';
+  document.getElementById('quiz-thanks').style.display='block';
+}
+
+function openModal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function handleOv(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+// Google Forms: paste each form's "Embed HTML" src here (Send → <> → copy the URL inside src="...").
+// One form (full PDF); its confirmation message carries the download link.
+const FORMS={
+  pdf:'COLE_AQUI_URL_FORM_PDF_EN'
+};
+function loadForm(key){
+  const fr=document.querySelector('iframe.gform[data-form="'+key+'"]');
+  if(!fr||fr.getAttribute('src'))return;
+  const url=FORMS[key]||'';
+  if(!/^https:\/\/docs\.google\.com\/forms\//.test(url))return;
+  fr.src=url+(url.includes('embedded=true')?'':(url.includes('?')?'&':'?')+'embedded=true');
+  fr.style.display='block';
+  const p=fr.parentNode.querySelector('.gform-pending');if(p)p.remove();
+}
+function openPDF(){loadForm('pdf');openModal('pdf-modal');}
+function closePDF(){closeModal('pdf-modal');}
+function openQuiz(){openModal('quiz-modal');}
+function closeQuiz(){closeModal('quiz-modal');}
+function openDemo(){document.getElementById('demo-modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeDemo(){document.getElementById('demo-modal').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeDemo();closeModal('pdf-modal');closeModal('quiz-modal');}});
+
+let map;
+
+async function initMap() {
+    const _center = { lat: -23.156869, lng: -45.791661 }; // PIT, São José dos Campos, SP
+
+    const { Map } = await google.maps.importLibrary("maps");
+    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+    map = new Map(document.getElementById("map"), {
+        zoom: 16,
+        center: _center,
+        mapTypeId: "satellite",
+        mapId: "29811bd89e4be758",
+    });
+
+    const marker = new AdvancedMarkerElement({
+        map,
+        content: buildContent(),
+        position: _center,
+        title: "MapOmega @ NEXUS Growth — Technology Innovation Park (PIT), São José dos Campos",
+    });
+
+    function buildContent() {
+        const content = document.createElement("div");
+        const ic_PIT = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHdpZHRoPSc0OCcgaGVpZ2h0PSc0OCcgdmlld0JveD0nMCAwIDQ4IDQ4JyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnPg0KDQoJPGcgdHJhbnNmb3JtPSd0cmFuc2xhdGUoMCAwKSByb3RhdGUoMCwyNCwyNCknPg0KCQk8c3R5bGUgdHlwZT0idGV4dC9jc3MiPg0KCQkJLmNpcmNsZXNsY3RkIHsNCgkJCWZpbGw6IHRyYW5zcGFyZW50Ow0KCQkJc3Ryb2tlOiBibHVlOw0KCQkJc3Ryb2tlLXdpZHRoOiA1Ow0KCQkJfQ0KDQoJCQkucHVsc2VzZWxjdGQgew0KCQkJLXdlYmtpdC10cmFuc2Zvcm0tb3JpZ2luOiA1MCUgNTAlOw0KCQkJdHJhbnNmb3JtLW9yaWdpbjogNTAlIDUwJTsNCgkJCS13ZWJraXQtYW5pbWF0aW9uLWR1cmF0aW9uOiAyczsNCgkJCWFuaW1hdGlvbi1kdXJhdGlvbjogMnM7DQoJCQktd2Via2l0LWFuaW1hdGlvbi1uYW1lOiBwdWxzZXNlbGN0ZDsNCgkJCWFuaW1hdGlvbi1uYW1lOiBwdWxzZXNlbGN0ZDsNCgkJCS13ZWJraXQtYW5pbWF0aW9uLWl0ZXJhdGlvbi1jb3VudDogaW5maW5pdGU7DQoJCQlhbmltYXRpb24taXRlcmF0aW9uLWNvdW50OiBpbmZpbml0ZTsNCgkJCX0NCg0KCQkJQC13ZWJraXQta2V5ZnJhbWVzIHB1bHNlc2VsY3RkIHsNCgkJCWZyb20gew0KCQkJc3Ryb2tlLXdpZHRoOiAxMHB4Ow0KCQkJc3Ryb2tlLW9wYWNpdHk6IDE7DQoJCQktd2Via2l0LXRyYW5zZm9ybTogc2NhbGUoMC4zKTsNCgkJCXRyYW5zZm9ybTogc2NhbGUoMC4zKTsNCgkJCX0NCg0KCQkJdG8gew0KCQkJc3Ryb2tlLXdpZHRoOiAwOw0KCQkJc3Ryb2tlLW9wYWNpdHk6IDA7DQoJCQktd2Via2l0LXRyYW5zZm9ybTogc2NhbGUoMi4zKTsNCgkJCXRyYW5zZm9ybTogc2NhbGUoMi4zKTsNCgkJCX0NCgkJCX0NCg0KCQkJQGtleWZyYW1lcyBwdWxzZXNlbGN0ZCB7DQoJCQlmcm9tIHsNCgkJCXN0cm9rZS13aWR0aDogMTVweDsNCgkJCXN0cm9rZS1vcGFjaXR5OiAxOw0KCQkJLXdlYmtpdC10cmFuc2Zvcm06IHNjYWxlKDAuMyk7DQoJCQl0cmFuc2Zvcm06IHNjYWxlKDAuMyk7DQoJCQl9DQoNCgkJCXRvIHsNCgkJCXN0cm9rZS13aWR0aDogMDsNCgkJCXN0cm9rZS1vcGFjaXR5OiAwOw0KCQkJLXdlYmtpdC10cmFuc2Zvcm06IHNjYWxlKDIuMyk7DQoJCQl0cmFuc2Zvcm06IHNjYWxlKDIuMyk7DQoJCQl9DQoJCQl9DQoJCTwvc3R5bGU+DQoJCTxjaXJjbGUgY2xhc3M9J3B1bHNlc2VsY3RkIGNpcmNsZXNsY3RkJyBjeD0nNTAlJyBjeT0nNTAlJyByPScxMHB4Jz4NCgkJPC9jaXJjbGU+DQoJPC9nPg0KDQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMiAxMikgcm90YXRlKDAsMTIsMTIpIj4NCgk8Y2lyY2xlIGRpc3BsYXk9Im5vbmUiIGZpbGw9IiMyMTI1MjkiIGN4PSIxMiIgY3k9IjEyIiByPSIyNCIvPg0KCTxwb2x5Z29uIGZpbGw9IiNGRkMxMDciIHBvaW50cz0iMTIuMzkzLDE2LjEzMiAyNCwxNi4xMzIgMjAuMDAxLDIwLjEzMiAxMiwyMC4xMzIgCSIvPg0KCTxwb2x5Z29uIGZpbGw9IiNGRkMxMDciIHBvaW50cz0iMCwxNi4xMzIgMTEuNDg0LDE2LjEzMiAxMiwyMC4xMzIgNCwyMC4xMzIgCSIvPg0KCTxnPg0KCQk8Zz4NCgkJCTxjaXJjbGUgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGN4PSIxMi4wMDkiIGN5PSIxMC40OTIiIHI9IjMuMzMzIi8+DQoJCTwvZz4NCgkJPHBhdGggZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0xNS40NjEsMi4yMzNjLTEuMDU2LTAuNDUzLTIuMjI2LTAuNzA5LTMuNDUzLTAuNzA5DQoJCQljLTQuODI3LDAtOC43MTksMy44ODctOC43MTksOC42OTRjMCwyLjQwOCwwLjk3Nyw0LjU1NCwyLjU2OCw2LjExNGw2LjE1Miw2LjEzOWwwLDBsMC4wMDYsMC4wMDVsMi4zOTItMi4zNzVsMy43NzYtMy43NzMNCgkJCWMxLjU2MS0xLjU1NSwyLjUyNy0zLjcwMSwyLjUyNy02LjExQzIwLjcxMSw2LjYzNywxOC41NTUsMy41NjcsMTUuNDYxLDIuMjMzeiBNMTIuMDQ1LDEzLjIxOGMtMC4wMTIsMC0wLjAyNC0wLjAwMS0wLjAzNi0wLjAwMQ0KCQkJbDAsMGMtMS41MTItMC4wMTktMi43NTYtMS4yMzQtMi43NTYtMi43NzVjMC0xLjUzMywxLjI0My0yLjc0OCwyLjc1NS0yLjc2OWMxLjU0OCwwLDIuODQzLDEuMjIxLDIuODQzLDIuNzY5DQoJCQlDMTQuODUyLDExLjk5NCwxMy41OTMsMTMuMjE4LDEyLjA0NSwxMy4yMTh6Ii8+DQoJPC9nPg0KCTxnPg0KCQk8cGF0aCBmaWxsPSIjMzUxQzc1IiBkPSJNOS4zNzgsMTAuNTEzYzAtMS40NjMsMS4xODgtMi42MjQsMi42MjktMi42NDRWMmwwLDBDNy40LDIsMy42ODYsNS43MTEsMy42ODYsMTAuMjk3DQoJCQljMCwyLjMsMC45MzEsNC4zNDksMi40NDksNS44MzdsNS44NzUsNS44NnYtOC44MzRDMTAuNTY2LDEzLjE0NCw5LjM3OCwxMS45ODQsOS4zNzgsMTAuNTEzeiIvPg0KCQk8cGF0aCBmaWxsPSIjMjBDOTk3IiBkPSJNMjAuMzE1LDEwLjI5OGMwLTMuNDE4LTIuMDU5LTYuMzQ5LTUuMDEyLTcuNjIzQzE0LjI5NywyLjI0MywxMy4xOCwyLDEyLjAwOCwydjUuODY5DQoJCQljMC4wMTIsMCwwLjAyNC0wLjAwMSwwLjAzNS0wLjAwMWMxLjQ3OSwwLDIuNjc5LDEuMTY3LDIuNjc5LDIuNjQ2YzAsMS40ODItMS4yMDEsMi42NS0yLjY3OSwyLjY1Yy0wLjAxLDAtMC4wMjIsMC0wLjAzNSwwdjguODMzDQoJCQlMMTIuMDE0LDIybDIuMjg0LTIuMjY3bDMuNjA0LTMuNjAyQzE5LjM5MywxNC42NDcsMjAuMzE1LDEyLjU5OSwyMC4zMTUsMTAuMjk4eiIvPg0KCTwvZz4NCjwvZz4NCjwvc3ZnPg0K";
+
+        content.innerHTML = `<div class="icon"><img src="${ic_PIT}" alt="PIT"></div>`;
+        return content;
+    }
+}
+
+initMap();</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
