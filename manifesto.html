@@ -47,6 +47,8 @@ section{padding:96px 0}
 header.top{position:sticky;top:0;z-index:50;background:rgba(10,22,48,.96);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:20px}
 .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;font-size:19px}
+.brand img{height:26px;width:auto;display:block}
+.flogo{display:flex;align-items:center;gap:14px}.flogo img{height:44px;width:auto}
 .brand i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
 nav.main{display:flex;gap:24px;align-items:center}
 nav.main a{color:var(--mute-d);text-decoration:none;font-size:14px;transition:color .2s}
@@ -178,7 +180,7 @@ article li b{color:var(--ink)}
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <a class="brand" href="index.html"><i></i>MapOmega</a>
+  <a class="brand" href="index.html"><img src="assets/img/logo-mark.png" alt="" width="28" height="26">MapOmega</a>
   <nav class="main" id="nav"><a href="index.html">← Home</a><a class="lang" href="https://mapomega.com.br/manifesto.html" hreflang="pt-BR" lang="pt-BR">PT</a></nav>
   <button class="ham" aria-label="Menu" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
 </div></header>
@@ -246,7 +248,7 @@ article li b{color:var(--ink)}
 </div></section>
 <div class="motto"><div class="wrap">All maps speak. <em>Ours also tell what is about to happen.</em></div></div>
 <footer><div class="wrap">
-  <span><b>MapOmega</b><br>MapOmega Tecnologia da Informação Ltda. · CNPJ 50.385.577/0001-37</span>
+  <span class="flogo"><img src="assets/img/logo-mark.png" alt="" width="47" height="44"><span><b>MapOmega</b><br>Irving, TX · São José dos Campos, Brazil</span></span>
   <span><a href="index.html">Home</a> · <a href="https://mapomega.com.br/manifesto.html" hreflang="pt-BR">Português</a><br>© 2026</span>
 </div></footer>
 
