@@ -55,25 +55,27 @@ nav.main .lang{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px s
 @media(max-width:900px){nav.main{display:none}.ham{display:block}nav.main.open{display:flex;flex-direction:column;align-items:flex-start;position:absolute;top:66px;left:0;right:0;background:var(--navy);padding:16px 20px;gap:14px;border-bottom:1px solid var(--line)}}
 
 /* HERO */
-.hero{position:relative;overflow:hidden;background:var(--navy);color:#fff;min-height:calc(100vh - 66px);max-height:860px;display:flex;align-items:center;padding:0}
+.hero{position:relative;overflow:hidden;background:var(--navy);color:#fff;height:clamp(460px,62vh,600px);display:flex;align-items:center;padding:0}
 .hero .stage,.hero .slide,.hero .shade{position:absolute;inset:0}
 .hero .slide{opacity:0;transition:opacity 1.8s ease}
-.hero .slide.on{opacity:1}
-.hero .scene{position:absolute;inset:-4%;background-size:cover;background-position:center;filter:blur(3px) saturate(1.05);transform:scale(1)}
+.hero .slide.on{opacity:1;z-index:1}
+.hero .scene{position:absolute;inset:-4%;background-size:cover;background-position:50% 72%;filter:blur(3px) saturate(1.05);transform:scale(1)}
 .hero .scene.ph{background:repeating-linear-gradient(-12deg,transparent 0 38px,var(--streak) 38px 40px,transparent 40px 90px),repeating-linear-gradient(-12deg,transparent 0 140px,var(--streak) 140px 141px,transparent 141px 220px),var(--sky)}
-.hero .slide.on .scene{animation:push 8.5s ease-out forwards}
+.hero .slide.on .scene,.hero .slide.leaving .scene{animation:push 9.5s ease-out forwards}
 @keyframes push{from{transform:scale(1)}to{transform:scale(1.12)}}
 .hero .shade{z-index:1;background:linear-gradient(90deg,rgba(10,22,48,.94) 0%,rgba(10,22,48,.78) 38%,rgba(10,22,48,.08) 66%),linear-gradient(0deg,rgba(10,22,48,.6),transparent 30%)}
 .hero .person{position:absolute;right:6%;bottom:0;width:36%;max-width:440px;height:88%;z-index:2;display:flex;align-items:flex-end;justify-content:center}
 .hero .person img{max-height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 16px 40px rgba(0,0,0,.5))}
+.hero .person.full{inset:0;right:auto;width:100%;max-width:none;height:100%;display:block}
+.hero .person.full img{position:absolute;bottom:0;height:100%;width:auto;max-width:none;max-height:none;left:calc(60% - 0.6 * var(--hh, 600px) * 1.7778)}
 .hero .person svg{width:100%;fill:#C9D3E6;opacity:.9}
 .hero .who{position:absolute;right:6%;bottom:22px;z-index:3;width:36%;max-width:440px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)}
-.hero .txt{position:relative;z-index:3;max-width:600px;padding:80px 0}
+.hero .txt{position:relative;z-index:3;max-width:600px;padding:40px 0}
 .hero .kick{color:var(--green)}
 .hero h1{text-shadow:0 2px 18px rgba(0,0,0,.4)}
 .hero h1 em{color:var(--yellow)}
 .hero p{margin-top:22px;font-size:18px;font-weight:300;color:#DDE4F0;max-width:540px}
-@media(max-width:860px){.hero{min-height:640px}.hero .person,.hero .who{width:62%;right:-8%}.hero .person{opacity:.55}.hero .txt{padding:56px 0 160px}}
+@media(max-width:860px){.hero{height:calc(100svh - 66px);min-height:620px;max-height:900px;align-items:flex-start}.hero .shade{background:linear-gradient(180deg,rgba(10,22,48,.96) 0%,rgba(10,22,48,.9) 44%,rgba(10,22,48,.35) 62%,rgba(10,22,48,.1) 80%,rgba(10,22,48,.55) 100%)}.hero .person.full img{height:60%;left:calc(50% - .6 * var(--hh, 700px) * .6 * 1.7778)}.hero .who{display:none}.hero .txt{padding:36px 0 0}.hero h1{font-size:clamp(30px,8.4vw,40px)}.hero p{font-size:16px;margin-top:16px}.hero .scene{background-position:62% 60%}}
 @media(prefers-reduced-motion:reduce){.hero .slide.on .scene{animation:none}}
 
 /* QUEM SOMOS */
@@ -102,8 +104,10 @@ nav.main .lang{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px s
 .card .sub{font-size:14px;color:var(--mute)}
 .card .go{margin-top:auto;padding-top:14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--green-k)}
 .sols .card{flex-direction:row}
+.card .img.img-contain{background:#fff;border-right:1px solid var(--bd)}
+.card .img.img-contain img{object-fit:contain;padding:10px}
 .sols .card .img{aspect-ratio:auto;width:42%;min-height:190px}
-@media(max-width:560px){.sols .card{flex-direction:column}.sols .card .img{width:100%;aspect-ratio:16/9;min-height:0}}
+@media(max-width:560px){.sols .card{flex-direction:column}.sols .card .img{width:100%;aspect-ratio:16/9;min-height:0}.sols .card .img.img-contain{aspect-ratio:4/3;border-right:0;border-bottom:1px solid var(--bd)}.sols .card .img.img-contain{overflow:hidden}.card .img.img-contain img{object-fit:cover;padding:0;object-position:50% 52%}}
 .row-label{display:flex;align-items:center;gap:14px;margin:44px 0 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
 .row-label::after{content:'';flex:1;height:1px;background:var(--bd)}
 
@@ -191,12 +195,12 @@ footer b{color:#fff;font-weight:500}
     <div class="about">
       <div class="kick">About us</div>
       <h2>A technology company <em>born on the shop floor.</em></h2>
-      <p>Founded in April 2023 in Vitória, Brazil, by military engineers, occupational safety engineers and postdoctoral researchers in genetics, all with extensive international experience in industry and academia.</p>
+      <p>Founded in April 2023 in Vitória, Brazil, by military engineers in metallurgy and occupational safety, together with a postdoctoral researcher in genetics, all with extensive international experience in industry and academia.</p>
       <p>We are part of NEXUS Growth in São José dos Campos, Brazil, the country's most vibrant technology ecosystem.</p>
     </div>
     <div class="mv">
       <div class="box"><h3>Mission</h3><p>To develop technologies that anticipate risk.</p></div>
-      <div class="box"><h3>Vision</h3><p>We want to expand each worker's ability to tune the efficiency of the organization, autonomously.</p><a href="manifesto.html">Read the manifesto →</a></div>
+      <div class="box"><h3>Vision</h3><p>Operations where people and processes adjust in synergy, moment by moment: maximum safety for those who work, maximum efficiency for those who produce.</p><a href="manifesto.html">Read the manifesto →</a></div>
     </div>
   </div>
 </section>
@@ -206,15 +210,15 @@ footer b{color:#fff;font-weight:500}
     <div class="kick">What we do</div>
     <h2>Four capabilities <em>that work alone or together.</em></h2>
     <div class="caps">
-      <a class="card" href="https://mapomni.com/"><div class="img"><span>image</span></div><div class="b"><h3>Parametric 3D maps</h3><p class="sub">Indoor and outdoor</p><span class="go">mapomni.com →</span></div></a>
-      <a class="card" href="https://deltaomni.com/eventsscanner.html"><div class="img"><span>image</span></div><div class="b"><h3>Event recording</h3><p class="sub">In real time</p><span class="go">Events Scanner →</span></div></a>
-      <a class="card" href="https://deltaomni.com/"><div class="img"><span>image</span></div><div class="b"><h3>Risk analysis</h3><p class="sub">In real time</p><span class="go">deltaomni.com →</span></div></a>
-      <a class="card" href="https://deltaomni.com/#improve"><div class="img"><span>image</span></div><div class="b"><h3>Verification</h3><p class="sub">Of closure and recurrence</p><span class="go">DeltaOmni Improve →</span></div></a>
+      <a class="card" href="https://mapomni.com/"><div class="img"><img src="assets/img/card-mapas3d.webp" alt="Parametric 3D map of a mine" loading="lazy"></div><div class="b"><h3>Parametric 3D maps</h3><p class="sub">Indoor and outdoor</p><span class="go">mapomni.com →</span></div></a>
+      <a class="card" href="https://deltaomni.com/eventsscanner.html"><div class="img"><img src="assets/img/card-scanner.webp" alt="Recording an event on the shop floor" loading="lazy"></div><div class="b"><h3>Event recording</h3><p class="sub">In real time</p><span class="go">Events Scanner →</span></div></a>
+      <a class="card" href="https://deltaomni.com/"><div class="img"><img src="assets/img/card-riscos.webp" alt="Event located on the plant's 3D map" loading="lazy"></div><div class="b"><h3>Risk analysis</h3><p class="sub">In real time</p><span class="go">deltaomni.com →</span></div></a>
+      <a class="card" href="https://deltaomni.com/#improve"><div class="img"><img src="assets/img/card-verificacao-en.webp" alt="Occurrences up to containment, then no recurrence at 30, 60 and 90 days" loading="lazy"></div><div class="b"><h3>Verification</h3><p class="sub">Of closure and recurrence</p><span class="go">DeltaOmni Improve →</span></div></a>
     </div>
     <div class="row-label">Ready-made solutions</div>
     <div class="sols">
-      <a class="card" href="https://safetycross.com.br/"><div class="img"><span>image</span></div><div class="b"><h3>Safety Cross</h3><p class="sub">Visual safety management: the Safety Cross, the event wall and the core indicators.</p><span class="go">safetycross.com.br →</span></div></a>
-      <a class="card" href="core.html"><div class="img"><span>image</span></div><div class="b"><h3>MapOmega Core</h3><p class="sub">The complete vertical solution for the occupational exposure of heavy-equipment operators.</p><span class="go">MapOmega Core →</span></div></a>
+      <a class="card" href="https://deltaomni.com/safetycross.html"><div class="img img-contain"><img src="assets/img/card-safetycross.webp" alt="Safety Cross: accidents of the month, day by day" loading="lazy"></div><div class="b"><h3>Safety Cross</h3><p class="sub">Visual safety management: the Safety Cross, the event wall and the core indicators.</p><span class="go">Safety Cross →</span></div></a>
+      <a class="card" href="core.html"><div class="img"><img src="assets/img/card-core.webp" alt="Operator in the cab wearing the MapOmega Core sensor" loading="lazy"></div><div class="b"><h3>MapOmega Core</h3><p class="sub">The complete vertical solution for the occupational exposure of heavy-equipment operators.</p><span class="go">MapOmega Core →</span></div></a>
     </div>
   </div>
 </section>
@@ -236,9 +240,9 @@ footer b{color:#fff;font-weight:500}
     <div class="kick">Sectors</div>
     <h2>Where we already work.</h2>
     <div class="sectors">
-      <div class="sector"><img src="https://deltaomni.com/assets/img/setor-mineracao.jpg" alt="" onerror="this.remove()"><h3>Mining</h3></div>
-      <div class="sector"><img src="https://deltaomni.com/assets/img/setor-siderurgia.jpg" alt="" onerror="this.remove()"><h3>Steel</h3></div>
-      <div class="sector"><img src="https://deltaomni.com/assets/img/setor-manufatura.jpg" alt="" onerror="this.remove()"><h3>Manufacturing</h3></div>
+      <div class="sector"><img src="assets/img/setor-mineracao.webp" alt="Crawler dozer at an iron ore mine" loading="lazy"><h3>Mining</h3></div>
+      <div class="sector"><img src="assets/img/setor-siderurgia.webp" alt="Ladle pouring molten steel in the melt shop" loading="lazy"><h3>Steel</h3></div>
+      <div class="sector"><img src="assets/img/setor-manufatura.webp" alt="Manufacturing hall" loading="lazy"><h3>Manufacturing</h3></div>
     </div>
   </div>
 </section>
@@ -280,12 +284,12 @@ footer b{color:#fff;font-weight:500}
 <script>
 /* Topo: pessoa + cenário. Quando as imagens existirem, preencha img/scene com o caminho dos arquivos. */
 const SLIDES = [
-  { who:'Shareholder',                 img:'', scene:'', sky:'#8FA9D6,#D8C99A', streak:'#FFE7A3' },
-  { who:'Plant director',         img:'', scene:'', sky:'#6E8FC4,#B9C7E0', streak:'#FFFFFF' },
-  { who:'Production manager',       img:'', scene:'', sky:'#5C7DB8,#9FB3D6', streak:'#FFFFFF' },
-  { who:'Quality engineer',   img:'', scene:'', sky:'#4A679E,#C9A27A', streak:'#FFD08A' },
-  { who:'Truck operator',      img:'', scene:'', sky:'#1C2B52,#3A4E80', streak:'#FF6B4A' },
-  { who:'Gate receptionist', img:'', scene:'', sky:'#0B1430,#1C2B52', streak:'#FFE7A3' },
+  { who:'Receptionist',             img:'assets/hero/p6.webp', scene:'assets/hero/s6.webp', sky:'#F2C987,#9DB8DE', streak:'#FFF2CC' },
+  { who:'Shareholder',                 img:'assets/hero/p1.webp', scene:'assets/hero/s1.webp', sky:'#8FA9D6,#D8C99A', streak:'#FFE7A3' },
+  { who:'Plant director',         img:'assets/hero/p2.webp', scene:'assets/hero/s2.webp', sky:'#6E8FC4,#B9C7E0', streak:'#FFFFFF' },
+  { who:'Production manager',       img:'assets/hero/p3.webp', scene:'assets/hero/s3.webp', sky:'#5C7DB8,#9FB3D6', streak:'#FFFFFF' },
+  { who:'Quality engineer',   img:'assets/hero/p4.webp', scene:'assets/hero/s4.webp', sky:'#4A679E,#C9A27A', streak:'#FFD08A' },
+  { who:'Truck operator',      img:'assets/hero/p5.webp', scene:'assets/hero/s5.webp', sky:'#1C2B52,#3A4E80', streak:'#FF6B4A' },
 ];
 const SIL = '<svg viewBox="0 0 200 260"><circle cx="100" cy="80" r="44"/><path d="M20 260c0-70 36-110 80-110s80 40 80 110z"/></svg>';
 const stage = document.getElementById('stage'), who = document.getElementById('who');
@@ -293,12 +297,13 @@ SLIDES.forEach((s, i) => {
   const d = document.createElement('div'); d.className = 'slide' + (i ? '' : ' on');
   const sc = s.scene ? `<div class="scene" style="background-image:url('${s.scene}')"></div>`
                      : `<div class="scene ph" style="--sky:linear-gradient(160deg,${s.sky});--streak:${s.streak}"></div>`;
-  d.innerHTML = sc + `<div class="person">${s.img ? `<img src="${s.img}" alt="">` : SIL}</div>`;
+  d.innerHTML = sc + (s.img ? `<div class="person full"><img src="${s.img}" alt=""></div>` : `<div class="person">${SIL}</div>`);
   stage.appendChild(d);
 });
+const setHH=()=>document.querySelector('.hero').style.setProperty('--hh',document.querySelector('.hero').offsetHeight+'px');setHH();addEventListener('resize',setHH);
 let k = 0; who.textContent = SLIDES[0].img ? '' : SLIDES[0].who;
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
-  const s = stage.children; s[k].classList.remove('on'); k = (k + 1) % s.length; s[k].classList.add('on'); who.textContent = SLIDES[k].img ? '' : SLIDES[k].who;
+  const s = stage.children, old = s[k]; old.classList.add('leaving'); old.classList.remove('on'); setTimeout(() => old.classList.remove('leaving'), 2000); k = (k + 1) % s.length; s[k].classList.add('on'); who.textContent = SLIDES[k].img ? '' : SLIDES[k].who;
 }, 7000);
 
 let map;
