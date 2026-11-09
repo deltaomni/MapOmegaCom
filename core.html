@@ -879,7 +879,14 @@ function loadForm(key){
   fr.style.display='block';
   const p=fr.parentNode.querySelector('.gform-pending');if(p)p.remove();
 }
-function openPDF(){loadForm('pdf');openModal('pdf-modal');}
+// Sem formulário configurado, o botão baixa o PDF direto.
+const PDF_URL='static_assets/mo_pdf/MapOmega_Core_EN.pdf';
+function openPDF(){
+  const url=FORMS.pdf||'';
+  if(/^https:\/\/docs\.google\.com\/forms\//.test(url)){loadForm('pdf');openModal('pdf-modal');return;}
+  if(typeof gtag==='function')gtag('event','file_download',{file_name:PDF_URL.split('/').pop()});
+  const a=document.createElement('a');a.href=PDF_URL;a.download='';document.body.appendChild(a);a.click();a.remove();
+}
 function closePDF(){closeModal('pdf-modal');}
 function openQuiz(){openModal('quiz-modal');}
 function closeQuiz(){closeModal('quiz-modal');}
